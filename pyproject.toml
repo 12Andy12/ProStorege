@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "prostorege"
+version = "0.1.0"
+description = "ПРиложение для работы с кассой aQsi"
+authors = ["AndreKo <saw271002@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.12"
+pyside6 = "~6.5.0"
+pandas = "^2.2.2"
+openpyxl = "^3.1.2"
+requests = "^2.31.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
