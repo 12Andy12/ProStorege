@@ -18,10 +18,10 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QTransform)
 from PySide6.QtWidgets import (QAbstractItemView, QAbstractSpinBox, QApplication, QDateEdit,
     QDoubleSpinBox, QFrame, QHBoxLayout, QHeaderView,
-    QLabel, QLineEdit, QMainWindow, QMenu,
-    QMenuBar, QPushButton, QSizePolicy, QSpacerItem,
-    QStatusBar, QTabWidget, QTableWidget, QTableWidgetItem,
-    QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
+    QLabel, QLineEdit, QMainWindow, QPushButton,
+    QSizePolicy, QSpacerItem, QTabWidget, QTableWidget,
+    QTableWidgetItem, QTreeWidget, QTreeWidgetItem, QVBoxLayout,
+    QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -30,7 +30,7 @@ class Ui_MainWindow(object):
         MainWindow.resize(819, 476)
         MainWindow.setStyleSheet(u"font: 14pt \"Times New Roman\";\n"
 "background-color: rgb(50, 50, 50);\n"
-"color: #b1b1b1;")
+"color: rgb(220, 220, 220);")
         self.action = QAction(MainWindow)
         self.action.setObjectName(u"action")
         self.action_Exel = QAction(MainWindow)
@@ -374,6 +374,74 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setStretch(4, 1)
         self.verticalLayout_2.setStretch(5, 1)
         self.tabWidget.addTab(self.tabResultInfo, "")
+        self.tab_setings = QWidget()
+        self.tab_setings.setObjectName(u"tab_setings")
+        self.verticalLayout_3 = QVBoxLayout(self.tab_setings)
+        self.verticalLayout_3.setSpacing(0)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.tabWidget_2 = QTabWidget(self.tab_setings)
+        self.tabWidget_2.setObjectName(u"tabWidget_2")
+        self.tabWidget_2.setTabPosition(QTabWidget.West)
+        self.tabWidget_2.setTabShape(QTabWidget.Rounded)
+        self.tabWidget_2.setDocumentMode(False)
+        self.tabWidget_2.setTabsClosable(False)
+        self.tabWidget_2.setMovable(True)
+        self.tabWidget_2.setTabBarAutoHide(False)
+        self.tab_2 = QWidget()
+        self.tab_2.setObjectName(u"tab_2")
+        self.verticalLayout_4 = QVBoxLayout(self.tab_2)
+        self.verticalLayout_4.setSpacing(10)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_14 = QHBoxLayout()
+        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
+        self.label_9 = QLabel(self.tab_2)
+        self.label_9.setObjectName(u"label_9")
+
+        self.horizontalLayout_14.addWidget(self.label_9)
+
+        self.l_api_token = QLineEdit(self.tab_2)
+        self.l_api_token.setObjectName(u"l_api_token")
+        self.l_api_token.setFrame(False)
+
+        self.horizontalLayout_14.addWidget(self.l_api_token)
+
+        self.horizontalLayout_14.setStretch(0, 1)
+        self.horizontalLayout_14.setStretch(1, 2)
+
+        self.verticalLayout_4.addLayout(self.horizontalLayout_14)
+
+        self.horizontalLayout_15 = QHBoxLayout()
+        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
+        self.label_10 = QLabel(self.tab_2)
+        self.label_10.setObjectName(u"label_10")
+
+        self.horizontalLayout_15.addWidget(self.label_10)
+
+        self.l_user_name = QLabel(self.tab_2)
+        self.l_user_name.setObjectName(u"l_user_name")
+
+        self.horizontalLayout_15.addWidget(self.l_user_name)
+
+        self.horizontalLayout_15.setStretch(0, 1)
+        self.horizontalLayout_15.setStretch(1, 2)
+
+        self.verticalLayout_4.addLayout(self.horizontalLayout_15)
+
+        self.traders_table = QTableWidget(self.tab_2)
+        self.traders_table.setObjectName(u"traders_table")
+
+        self.verticalLayout_4.addWidget(self.traders_table)
+
+        self.tabWidget_2.addTab(self.tab_2, "")
+        self.tab_3 = QWidget()
+        self.tab_3.setObjectName(u"tab_3")
+        self.tabWidget_2.addTab(self.tab_3, "")
+
+        self.verticalLayout_3.addWidget(self.tabWidget_2)
+
+        self.tabWidget.addTab(self.tab_setings, "")
 
         self.horizontalLayout.addWidget(self.tabWidget)
 
@@ -381,30 +449,11 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.addLayout(self.horizontalLayout)
 
         MainWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QStatusBar(MainWindow)
-        self.statusbar.setObjectName(u"statusbar")
-        MainWindow.setStatusBar(self.statusbar)
-        self.menuBar = QMenuBar(MainWindow)
-        self.menuBar.setObjectName(u"menuBar")
-        self.menuBar.setGeometry(QRect(0, 0, 819, 32))
-        self.menu = QMenu(self.menuBar)
-        self.menu.setObjectName(u"menu")
-        self.menu_2 = QMenu(self.menuBar)
-        self.menu_2.setObjectName(u"menu_2")
-        self.menu_3 = QMenu(self.menuBar)
-        self.menu_3.setObjectName(u"menu_3")
-        MainWindow.setMenuBar(self.menuBar)
-
-        self.menuBar.addAction(self.menu.menuAction())
-        self.menuBar.addAction(self.menu_2.menuAction())
-        self.menuBar.addAction(self.menu_3.menuAction())
-        self.menu.addAction(self.action)
-        self.menu_2.addAction(self.action_Exel)
-        self.menu_3.addAction(self.a_create_exel_with_result)
 
         self.retranslateUi(MainWindow)
 
         self.tabWidget.setCurrentIndex(0)
+        self.tabWidget_2.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -422,8 +471,8 @@ class Ui_MainWindow(object):
         self.label.setText(QCoreApplication.translate("MainWindow", u"\u0418\u0442\u043e\u0433\u043e", None))
         self.le_result_sum.setText(QCoreApplication.translate("MainWindow", u"0", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u" \u0440\u0443\u0431\u043b\u0435\u0439", None))
-        self.btn_without_terminal.setText(QCoreApplication.translate("MainWindow", u"\u041d\u0430\u043b\u0438\u0447\u043a\u0430", None))
-        self.btn_terminal.setText(QCoreApplication.translate("MainWindow", u"\u0411\u0435\u0437\u043d\u0430\u043b", None))
+        self.btn_without_terminal.setText(QCoreApplication.translate("MainWindow", u"\u0411\u0435\u0437 \u0442\u0435\u0440\u043c\u0438\u043d\u0430\u043b\u0430", None))
+        self.btn_terminal.setText(QCoreApplication.translate("MainWindow", u"\u0422\u0435\u0440\u043c\u0438\u043d\u0430\u043b", None))
         self.btn_clear_basket.setText(QCoreApplication.translate("MainWindow", u"\u043e\u0447\u0438\u0441\u0442\u0438\u0442\u044c \u043a\u043e\u0440\u0437\u0438\u043d\u0443", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_basket), QCoreApplication.translate("MainWindow", u"\u041a\u043e\u0440\u0437\u0438\u043d\u0430", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"\u041f\u0435\u0440\u0438\u043e\u0434 \u0441 ", None))
@@ -436,8 +485,11 @@ class Ui_MainWindow(object):
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"\u0418\u0442\u043e\u0433", None))
         self.result.setText(QCoreApplication.translate("MainWindow", u"0", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabResultInfo), QCoreApplication.translate("MainWindow", u"\u041e\u0442\u0447\u0435\u0442\u043d\u043e\u0441\u0442\u044c", None))
-        self.menu.setTitle(QCoreApplication.translate("MainWindow", u"\u0424\u0430\u0439\u043b", None))
-        self.menu_2.setTitle(QCoreApplication.translate("MainWindow", u"\u0418\u043c\u043f\u043e\u0440\u0442", None))
-        self.menu_3.setTitle(QCoreApplication.translate("MainWindow", u"\u041e\u0442\u0447\u0435\u0442\u043d\u043e\u0441\u0442\u044c", None))
+        self.label_9.setText(QCoreApplication.translate("MainWindow", u"\u0422\u043e\u043a\u0435\u043d \u0434\u043b\u044f API", None))
+        self.label_10.setText(QCoreApplication.translate("MainWindow", u"\u0418\u043c\u044f \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f", None))
+        self.l_user_name.setText(QCoreApplication.translate("MainWindow", u"none", None))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"\u0410\u043a\u043a\u0430\u0443\u043d\u0442", None))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"\u0421\u0442\u0438\u043b\u044c", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_setings), QCoreApplication.translate("MainWindow", u"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", None))
     # retranslateUi
 

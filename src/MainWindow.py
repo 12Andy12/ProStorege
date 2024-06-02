@@ -6,6 +6,7 @@ from src.ChangeWindow import ChangeWindow
 from src.InfoWindow import InfoWindow
 from src.ItemWindow import ItemWindow
 from src.PeriodWindow import PeriodWindow
+from src.TraderLoginWindow import TraderLoginWindow
 from src.OperationWindows import OperationWindow
 from PySide6 import QtCore, QtWidgets, QtGui
 from PySide6.QtWidgets import *
@@ -36,10 +37,16 @@ class PushButton(QtWidgets.QPushButton):
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
-    def __init__(self, parent=None):
+    def __init__(self, name="none", admin=True, parent=None):
         super().__init__(parent)
         self.setupUi(self)
         print("Main Window created")
+        self.admin = admin
+        self.name = name
+        self.l_user_name.setText(name)
+        if not admin:
+            self.tab_setings.setEnabled(False)
+            self.tabResultInfo.setEnabled(False)
 
         self.data_base_connector = DataBaseConnector()
         print("data base connector created")
@@ -87,10 +94,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                         [0, 0, 100, 100, 100, 100], self.table_right_clicked)
         self.init_table(self.basket_table, ['', 'Наименование', 'Цена', 'Кол-во'], [1],
                         [0, 0, 200, 300], self.basket_right_clicked)
-        self.init_table(self.info_table,
-                        ['дата', 'Наименование', 'операция', 'кол-во', 'цена', 'Скидка, %', 'Скидка, руб', 'сумма'],
-                        [1],
-                        [100, 0, 200, 100, 100, 150, 150, 150], self.info_right_clicked)
+        if admin:
+            self.init_table(self.info_table,
+                            ['дата', 'Наименование', 'операция', 'кол-во', 'цена', 'Скидка, %', 'Скидка, руб', 'сумма'],
+                            [1],
+                            [100, 0, 200, 100, 100, 150, 150, 150], self.info_right_clicked)
+
+            self.init_table(self.traders_table,
+                            ['Логин', 'Пароль'],
+                            [0, 1],
+                            [], self.traders_right_clicked)
         self.de_end.setDate(QDate.currentDate())
         self.load_folders()
         self.draw_folders()
@@ -102,7 +115,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         exel_name = f"отчет за период c {start_date} по {end_date}.xlsx"
 
         file_path = QFileDialog.getSaveFileName(self, "Open Address book", exel_name, "Exel (*.xlsx)")[0]
-        print(file_path)
+        # print(file_path)
         result_data = []
         for i in range(self.info_table.rowCount()):
             line = []
@@ -113,13 +126,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         result_data.append(['Товаров поступило на сумму', self.supply.text()])
         result_data.append(['Товаров проданно на сумму', self.sale.text()])
         result_data.append(['Итого', self.result.text()])
-        print(result_data)
+        # print(result_data)
         data = pd.DataFrame(data=result_data,
                             columns=['дата', 'Наименование', 'операция', 'кол-во', 'цена', 'Скидка, %', 'Скидка, руб',
                                      'сумма'])
         data.to_excel(file_path, index=False)
 
     def info_table_change(self):
+        if not self.admin:
+            return
         self.info_table.setRowCount(0)
         start_date = self.de_start.text()
         end_date = self.de_end.text()
@@ -128,11 +143,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                      operations.discount_percent, operations.discount_money, operations.result_sum\
                         FROM operations\
                         JOIN goods ON goods.id = operations.good_id;")
-        print(f"data_from_db = {data_from_db}")
+        # print(f"data_from_db = {data_from_db}")
         count_supply = 0
         count_sale = 0
         for row in data_from_db:
-            print(row)
+            # print(row)
             current_datetime = datetime.strptime(row[0], "%d.%m.%Y").date()
             start_datetime = datetime.strptime(start_date, "%d.%m.%Y").date()
             end_datetime = datetime.strptime(end_date, "%d.%m.%Y").date()
@@ -237,6 +252,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.add_in_table(self.items_table, [item["id"], item["name"], str(item["price"]), str(item["productionCost"]),
                                              str(count[0][0]) + " " + item["unit"], btn_basket])
 
+    def add_in_traders_table(self, traders):
+        for trader in traders:
+            self.add_in_table(self.traders_table, [trader["name"], trader["password"]])
+
     def add_in_basket_table(self, item):
         sb_count = QDoubleSpinBox()
         sb_count.setStyleSheet(src.styles.spin_box_style("30", "rgb(50, 50, 50)"))
@@ -289,6 +308,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         menu.exec_(self.basket_table.viewport().mapToGlobal(pos))
 
     def table_right_clicked(self, pos):
+        if not self.admin:
+            return
         item = self.items_table.itemAt(pos)
         menu = QtWidgets.QMenu()
         if item is None:
@@ -310,9 +331,24 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             menu.addAction(delete_action)
         menu.exec_(self.items_table.viewport().mapToGlobal(pos))
 
+    def traders_right_clicked(self, pos):
+        # print("traders right clicked")
+        item = self.traders_table.itemAt(pos)
+        menu = QtWidgets.QMenu()
+        add_action = QAction("Добавить нового кассира")
+        add_action.triggered.connect(lambda: self.open_trader_login_window())
+        delete_action = QAction("Удалить")
+        delete_action.triggered.connect(lambda: print("del trader"))
+        if item is None:
+            menu.addAction(add_action)
+        else:
+            menu.addAction(delete_action)
+            menu.addAction(add_action)
+        menu.exec_(self.traders_table.viewport().mapToGlobal(pos))
+
     def folder_right_clicked(self, pos):
         item = self.folders_tree.itemAt(pos)
-        if item is None:
+        if item is None or not self.admin:
             return
         folder_name = self.folders_tree.currentItem().text(0)
         menu = QtWidgets.QMenu()
@@ -350,6 +386,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.folder_window.current_folder = self.folders_tree.currentItem()
         self.folder_window.le_folder_name.setFocus()
         self.folder_window.show()
+
+    def open_trader_login_window(self):
+        trader_login_window = TraderLoginWindow(admin_name=self.name, parent=self)
+        # trader_login_window.show()
 
     def open_item_window(self, mode):
         # folder_window = AddFolderWindow(self)
