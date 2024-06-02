@@ -1,0 +1,6 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource>
+        <file>order_number.txt</file>
+    </qresource>
+</RCC>
+<!--pyside6-rcc -o src/resources_db.py DataBase/resource_db.qrc-->

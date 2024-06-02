@@ -7,6 +7,8 @@ from PySide6.QtGui import *
 from PySide6.QtCore import *
 import sys
 
+import src.APIconector
+
 
 class FolderWindow(QtWidgets.QWidget, Ui_DirectoryForm):
     def __init__(self, parent=None):
@@ -33,29 +35,103 @@ class FolderWindow(QtWidgets.QWidget, Ui_DirectoryForm):
             self.add_folder()
         elif self.mode == "rename":
             self.rename_folder()
+        elif self.mode == "replace_folder":
+            self.replace_folder()
+        elif self.mode == "replace_item":
+            self.replace_item()
         else:
             print("неверный мод")
 
+        self.hide()
+
+    def replace_item(self):
+        new_folder_name = self.le_folder_name.text()
+        current_row = self.parent.items_table.currentRow()
+        current_id = self.parent.items_table.item(current_row, 0).text()
+        new_folder = None
+        for folder in self.parent.folders:
+            if folder["name"] == new_folder_name:
+                new_folder = folder
+                break
+
+        if new_folder is None:
+            return
+
+        for item_id in self.parent.data:
+            if item_id == current_id:
+                self.parent.data[item_id]["group_id"] = new_folder["id"]
+                self.parent.data[item_id]["paymentMethodType"] = 4
+                self.parent.data[item_id]["subject"] = 1
+                src.APIconector.update_good(self.parent.data[item_id])
+                self.parent.on_dir_changed()
+                break
+
+    def replace_folder(self):
+        new_parent_name = self.le_folder_name.text()
+        name = self.parent.folders_tree.currentItem().text(0)
+        new_parent = None
+        for folder in self.parent.folders:
+            if folder["name"] == new_parent_name:
+                new_parent = folder
+                break
+
+        if new_parent is None:
+            return
+
+        for folder in self.parent.folders:
+            if folder["name"] == name:
+                folder["parent"] = new_parent["id"]
+                src.APIconector.update_dir(folder)
+                break
+
+        self.parent.load_folders()
+        self.parent.draw_folders()
+        self.parent.old_selection_name = name
+
+
+
     def rename_folder(self):
         new_name = self.le_folder_name.text()
+        old_name = self.parent.folders_tree.currentItem().text(0)
         if not self.is_correct_name(new_name):
             return
-        self.parent.data_base_connector.request(
-            f"UPDATE folders SET name = '{new_name}' WHERE name = '{self.parent.ui.folders_tree.currentItem().text(0)}'")
 
-        self.parent.ui.folders_tree.currentItem().setText(0, new_name)
-        self.hide()
+        for folder in self.parent.folders:
+            if folder["name"] == old_name:
+                folder["name"] = new_name
+                src.APIconector.update_dir(folder)
+                break
+
+        self.parent.folders_tree.currentItem().setText(0, new_name)
+
 
     def add_folder(self):
-        new_folder = self.le_folder_name.text()
-        if not self.is_correct_name(new_folder):
+        new_id = src.APIconector.generate_id()
+        new_folder_name = self.le_folder_name.text()
+        parent_name = self.parent.folders_tree.currentItem().text(0)
+        if not self.is_correct_name(new_folder_name):
             return
-        self.parent.data_base_connector.request(
-            f"INSERT INTO folders(name, parent_name) VALUES('{new_folder}', '{self.parent.ui.folders_tree.currentItem().text(0)}')")
-        self.hide()
-        child = QTreeWidgetItem(self.parent.ui.folders_tree.currentItem())
-        child.setText(0, new_folder)
+        parent_id = None
+        if self.parent.folders_tree.currentItem().text(0) == "Все категории":
+            parent_id = None
+        else:
+            # parent_id = self.parent.data_base_connector.request(
+            #     f"SELECT id FROM folders WHERE name = '{self.parent.folders_tree.currentItem().text(0)}'")
+            for folder in self.parent.folders:
+                if folder["name"] == parent_name:
+                    # print(f"Add {folder['name']}")
+                    parent_id = folder["id"]
+
+        new_folder = src.APIconector.add_folder(new_id, new_folder_name, parent_id)
+
+        # self.parent.data_base_connector.request(
+        #     f"INSERT INTO folders(id, name, parent_name) VALUES('{new_id}', '{new_folder}', '{parent_id}')")
+
+        child = QTreeWidgetItem(self.parent.folders_tree.currentItem())
+        child.setText(0, new_folder_name)
         child.setIcon(0, QIcon("images/iconFolder.png"))
+        self.parent.count_parent[new_folder_name] = self.parent.count_parent[parent_name] + 1
+        self.parent.load_folders()
 
     def is_correct_name(self, name):
         if name == "":

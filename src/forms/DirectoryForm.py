@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'DirectoryForm.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.6.3
+## Created by: Qt User Interface Compiler version 6.5.3
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -37,7 +37,7 @@ class Ui_DirectoryForm(object):
         self.verticalLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
         self.label = QLabel(DirectoryForm)
         self.label.setObjectName(u"label")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
+        sizePolicy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
@@ -60,7 +60,7 @@ class Ui_DirectoryForm(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.btn_ok = QPushButton(DirectoryForm)
         self.btn_ok.setObjectName(u"btn_ok")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.btn_ok.sizePolicy().hasHeightForWidth())

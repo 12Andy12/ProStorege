@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'AddDirectoryForm.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.6.3
+## Created by: Qt User Interface Compiler version 6.5.3
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -53,7 +53,7 @@ class Ui_DirectoryForm(object):
         self.horizontalLayout.setSizeConstraint(QLayout.SetMaximumSize)
         self.btnAdd = QPushButton(DirectoryForm)
         self.btnAdd.setObjectName(u"btnAdd")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+        sizePolicy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.btnAdd.sizePolicy().hasHeightForWidth())

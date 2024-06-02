@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'ItemForm.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.6.3
+## Created by: Qt User Interface Compiler version 6.5.3
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -31,7 +31,7 @@ class Ui_ItemsForm(object):
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.label_title = QLabel(ItemsForm)
         self.label_title.setObjectName(u"label_title")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
+        sizePolicy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_title.sizePolicy().hasHeightForWidth())
@@ -53,7 +53,7 @@ class Ui_ItemsForm(object):
 
         self.itemName = QLineEdit(ItemsForm)
         self.itemName.setObjectName(u"itemName")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.itemName.sizePolicy().hasHeightForWidth())
@@ -116,30 +116,6 @@ class Ui_ItemsForm(object):
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_price)
 
-        self.horizontalLayout_count = QHBoxLayout()
-        self.horizontalLayout_count.setSpacing(0)
-        self.horizontalLayout_count.setObjectName(u"horizontalLayout_count")
-        self.label_6 = QLabel(ItemsForm)
-        self.label_6.setObjectName(u"label_6")
-        self.label_6.setStyleSheet(u"background-color: rgb(60, 60, 60);")
-        self.label_6.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
-
-        self.horizontalLayout_count.addWidget(self.label_6)
-
-        self.count = QLineEdit(ItemsForm)
-        self.count.setObjectName(u"count")
-        sizePolicy1.setHeightForWidth(self.count.sizePolicy().hasHeightForWidth())
-        self.count.setSizePolicy(sizePolicy1)
-        self.count.setStyleSheet(u"background-color: rgb(68, 68, 68);")
-        self.count.setFrame(False)
-
-        self.horizontalLayout_count.addWidget(self.count)
-
-        self.horizontalLayout_count.setStretch(0, 1)
-        self.horizontalLayout_count.setStretch(1, 2)
-
-        self.verticalLayout_2.addLayout(self.horizontalLayout_count)
-
         self.horizontalLayout_type = QHBoxLayout()
         self.horizontalLayout_type.setSpacing(0)
         self.horizontalLayout_type.setObjectName(u"horizontalLayout_type")
@@ -169,7 +145,7 @@ class Ui_ItemsForm(object):
         self.horizontalLayout_btns.setObjectName(u"horizontalLayout_btns")
         self.btn_ok = QPushButton(ItemsForm)
         self.btn_ok.setObjectName(u"btn_ok")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.btn_ok.sizePolicy().hasHeightForWidth())
@@ -215,7 +191,6 @@ class Ui_ItemsForm(object):
         self.verticalLayout_2.setStretch(3, 1)
         self.verticalLayout_2.setStretch(4, 1)
         self.verticalLayout_2.setStretch(5, 1)
-        self.verticalLayout_2.setStretch(6, 1)
 
         self.retranslateUi(ItemsForm)
 
@@ -230,8 +205,6 @@ class Ui_ItemsForm(object):
         self.originalPrice.setText("")
         self.label_3.setText(QCoreApplication.translate("ItemsForm", u"\u0426\u0435\u043d\u0430 \u043f\u0440\u043e\u0434\u0430\u0436\u044b: ", None))
         self.price.setText("")
-        self.label_6.setText(QCoreApplication.translate("ItemsForm", u"\u041a\u043e\u043b-\u0432\u043e: ", None))
-        self.count.setText("")
         self.label_7.setText(QCoreApplication.translate("ItemsForm", u"\u0415\u0434. \u0438\u0437\u043c\u0435\u0440\u0435\u043d\u0438\u044f: ", None))
         self.type.setText("")
         self.btn_ok.setText(QCoreApplication.translate("ItemsForm", u"\u041e\u043a", None))

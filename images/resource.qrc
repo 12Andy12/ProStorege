@@ -1,0 +1,15 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource>
+        <file>iconCalendar.png</file>
+        <file>iconFolder.png</file>
+        <file>iconSearch.png</file>
+        <file>iconUp.png</file>
+        <file>iconDown.png</file>
+        <file>iconWhiteUp.png</file>
+        <file>iconWhiteDown.png</file>
+        <file>iconShoppingCart.png</file>
+        <file>iconPlus.png</file>
+        <file>iconMinus.png</file>
+    </qresource>
+</RCC>
+<!--pyside6-rcc -o src/resources.py images/resource.qrc-->

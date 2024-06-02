@@ -40,14 +40,16 @@ class DataBaseConnector:
             self.cursor.execute(
                     """
                     CREATE TABLE IF NOT EXISTS folders(
-                        name text PRIMARY KEY,
-                        parent_name text);
+                        id text PRIMARY KEY,
+                        name,
+                        parent_name text,
+                        UNIQUE(id));
                     """
                     )
             self.cursor.execute(
                     """
                     CREATE TABLE IF NOT EXISTS items(
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        id text PRIMARY KEY,
                         name text,
                         price double precision,
                         original_price double precision,

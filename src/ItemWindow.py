@@ -6,6 +6,7 @@ from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
 import sys
+import src.APIconector
 
 
 class ItemWindow(QtWidgets.QWidget, Ui_ItemsForm):
@@ -14,7 +15,9 @@ class ItemWindow(QtWidgets.QWidget, Ui_ItemsForm):
         self.mode = "add"
         self.parent = parent
         self.old_pos = None
+
         self.hide()
+        self.move(300, 300)
         self.setupUi(self)
         self.btn_ok.clicked.connect(lambda: self.selector())
         self.btn_cancel.clicked.connect(lambda: self.hide())
@@ -22,35 +25,42 @@ class ItemWindow(QtWidgets.QWidget, Ui_ItemsForm):
     def selector(self):
         if not self.is_correct():
             return
-        dir_name = self.parent.ui.folders_tree.currentItem().text(0)
-        print(f"[INFO] ItemWidget ok clicked in folder: {dir_name}")
+        current_folder_name = self.parent.folders_tree.currentItem().text(0)
+
+        current_folder_id = None
+        for folder in self.parent.folders:
+            if folder["name"] == current_folder_name:
+                current_folder_id = folder["id"]
+                break
+        if current_folder_id is None:
+            return
+
         if self.mode == "add":
+            new_id = src.APIconector.generate_id()
             name = self.itemName.text()
             original_price = self.originalPrice.text()
             price = self.price.text()
-            count = self.count.text()
+            # count = self.count.text()
             type = self.type.text()
-            self.parent.data_base_connector.request(
-                f"INSERT INTO items(name, price, original_price, count, folder, type) "
-                f"VALUES('{name}', '{price}', '{original_price}', '{count}', '{dir_name}', '{type}')")
-            self.parent.data_base_connector.request(f"CREATE INDEX id ON items({name})")
-
+            src.APIconector.add_good(new_id, name, original_price, price, type, current_folder_id)
+            self.parent.data = src.APIconector.get_all_goods()
         elif self.mode == "change":
             name = self.itemName.text()
             original_price = self.originalPrice.text()
             price = self.price.text()
-            count = self.count.text()
+            # count = self.count.text()
             type = self.type.text()
-            self.parent.data_base_connector.request(
-                f"UPDATE items SET "
-                f"name = '{name}', "
-                f"price = '{price}', "
-                f"original_price = '{original_price}', "
-                f"count = '{count}', "
-                f"folder = '{dir_name}', "
-                f"type = '{type}' "
-                f"WHERE "
-                f"id = {self.parent.ui.items_table.item(self.parent.ui.items_table.currentRow(), 0).text()}")
+            current_row = self.parent.items_table.currentRow()
+            change_item_id = self.parent.items_table.item(current_row, 0).text()
+            for item_id in self.parent.data:
+                if item_id == change_item_id:
+                    self.parent.data[item_id]["name"] = name
+                    self.parent.data[item_id]["price"] = price
+                    self.parent.data[item_id]["unit"] = type
+                    self.parent.data[item_id]["productionCost"] = original_price
+                    self.parent.data[item_id]["paymentMethodType"] = 4
+                    self.parent.data[item_id]["subject"] = 1
+                    src.APIconector.update_good(self.parent.data[item_id])
 
         self.parent.on_dir_changed()
         self.hide()
@@ -63,8 +73,6 @@ class ItemWindow(QtWidgets.QWidget, Ui_ItemsForm):
             error_msg = "Поле с ценой закупки не может быть пустым"
         if self.price.text() == "":
             error_msg = "Поле с ценой товара не может быть пустым"
-        if self.count.text() == "":
-            error_msg = "Поле с кол-вом товара не может быть пустым"
         if self.type.text() == "":
             error_msg = "Поле с ед. измерения количества товара не может быть пустым"
         if error_msg == "no error":

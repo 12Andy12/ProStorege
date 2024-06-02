@@ -18,7 +18,7 @@
 background-color: rgb(50, 50, 50);
 color: #b1b1b1;</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,1,1,1,1,1,1">
+  <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,1,1,1,1,1">
    <property name="spacing">
     <number>0</number>
    </property>
@@ -136,45 +136,6 @@ color: #b1b1b1;</string>
      </item>
      <item>
       <widget class="QLineEdit" name="price">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(68, 68, 68);</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="frame">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_count" stretch="1,2">
-     <property name="spacing">
-      <number>0</number>
-     </property>
-     <item>
-      <widget class="QLabel" name="label_6">
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(60, 60, 60);</string>
-       </property>
-       <property name="text">
-        <string>Кол-во: </string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="count">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
