@@ -18,8 +18,8 @@ class TraderLoginWindow(QtWidgets.QWidget, Ui_TraderLoginForm):
         self.old_pos = None
         self.parent = parent
         self.admin_name = admin_name
-        self.btn_save_trader.setStyleSheet(style.btn_clicked_style)
-        self.btn_cancel.setStyleSheet(style.btn_clicked_style)
+        self.btn_save_trader.setStyleSheet(style.btn_clicked_style())
+        self.btn_cancel.setStyleSheet(style.btn_clicked_style())
         self.btn_cancel.clicked.connect(lambda: self.close())
         self.btn_save_trader.clicked.connect(lambda: self.on_save())
         self.users = []

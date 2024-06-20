@@ -24,8 +24,8 @@ class PeriodWindow(QtWidgets.QWidget, Ui_PeriodForm):
         self.old_pos = None
         self.btn_ok.clicked.connect(lambda: self.generate_exel_with_result())
         self.btn_cancel.clicked.connect(lambda: self.close())
-        self.date_start.setStyleSheet(src.styles.date_edit_style)
-        self.date_end.setStyleSheet(src.styles.date_edit_style)
+        self.date_start.setStyleSheet(src.styles.date_edit_style())
+        self.date_end.setStyleSheet(src.styles.date_edit_style())
         self.show()
 
     def generate_exel_with_result(self):

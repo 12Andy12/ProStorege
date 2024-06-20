@@ -7,6 +7,7 @@ from PySide6.QtGui import *
 from PySide6.QtCore import *
 import sys
 import src.APIconector
+import src.styles as styles
 
 
 class ItemWindow(QtWidgets.QWidget, Ui_ItemsForm):
@@ -19,6 +20,18 @@ class ItemWindow(QtWidgets.QWidget, Ui_ItemsForm):
         self.hide()
         self.move(300, 300)
         self.setupUi(self)
+        self.setStyleSheet(styles.main_style())
+        self.btn_ok.setStyleSheet(styles.btn_clicked_style())
+        self.btn_cancel.setStyleSheet(styles.btn_clicked_style())
+        self.label_title.setStyleSheet(styles.background_color("alternative_background_color"))
+        self.itemName.setStyleSheet(styles.background_color("alternative_background_color"))
+        self.originalPrice.setStyleSheet(styles.background_color("alternative_background_color"))
+        self.price.setStyleSheet(styles.background_color("alternative_background_color"))
+        self.type.setStyleSheet(styles.background_color("alternative_background_color"))
+        self.l_name.setStyleSheet(styles.background_color("alternative_background_color"))
+        self.l_original_price.setStyleSheet(styles.background_color("alternative_background_color"))
+        self.l_price.setStyleSheet(styles.background_color("alternative_background_color"))
+        self.l_type.setStyleSheet(styles.background_color("alternative_background_color"))
         self.btn_ok.clicked.connect(lambda: self.selector())
         self.btn_cancel.clicked.connect(lambda: self.hide())
 

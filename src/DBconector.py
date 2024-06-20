@@ -76,7 +76,7 @@ class DataBaseConnector:
             self.cursor.execute(command)
             result = self.cursor.fetchall()
             self.connection.commit()
-            print(f"[INFO] SQL request [{command}] successful, result = {result}")
+            # print(f"[INFO] SQL request [{command}] successful, result = {result}")
         except Exception as _ex:
             print(f"[ERROR] Error while working with SQL:\nin line: {command}\nerror: {_ex}")
 
@@ -87,72 +87,3 @@ class DataBaseConnector:
             self.connection.close()
             print("[INFO] SQL connection closed")
 
-#
-#
-# def request(command):
-#     connection = None
-#     res = []
-#     try:
-#
-#         connection = psycopg2.connect(
-#             host=host,
-#             user=user,
-#             password=password,
-#             database=db_name
-#         )
-#         connection.autocommit = True
-#
-#         with connection.cursor() as cursor:
-#             cursor.execute(command)
-#             res = cursor.fetchall()
-#
-#     except Exception as _ex:
-#         print("[INFO] Error while working with postgres SQL: ", _ex)
-#     finally:
-#         if connection:
-#             connection.close()
-#             print("[INFO] Postgres SQL connection closed")
-#
-#     return res
-#
-#
-# def test_conection():
-#     connection = None
-#     try:
-#         connection = psycopg2.connect(
-#             host=host,
-#             user=user,
-#             password=password,
-#             database=db_name
-#         )
-#         connection.autocommit = True
-#
-#         with connection.cursor() as cursor:
-#             cursor.execute(
-#                 "SELECT version();"
-#             )
-#
-#             print(f"Server version: {cursor.fetchone()}")
-#
-#         with connection.cursor() as cursor:
-#
-#
-#         # with connection.cursor() as cursor:
-#         #     cursor.execute(
-#         #         """INSERT INTO folders(name, parent_name) VALUES('testFolder2', 'root')"""
-#         #     )
-#
-#         # with connection.cursor() as cursor:
-#         #     cursor.execute(
-#         #         """SELECT * FROM folders;"""
-#         #     )
-#         #     print(f"SELECT * FROM folders: {cursor.fetchone()}")
-#
-#
-#
-#     except Exception as _ex:
-#         print("[INFO] Error while working with postgres SQL: ", _ex)
-#     finally:
-#         if connection:
-#             connection.close()
-#             print("[INFO] Postgres SQL connection closed")

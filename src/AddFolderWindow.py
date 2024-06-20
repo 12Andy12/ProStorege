@@ -6,7 +6,7 @@ from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
 import sys
-
+import src.styles as styles
 import src.APIconector
 
 
@@ -16,6 +16,9 @@ class FolderWindow(QtWidgets.QWidget, Ui_DirectoryForm):
         # self.ui = Ui_AddDirectoryForm()
         self.setupUi(self)
         self.move(300, 300)
+        self.setStyleSheet(styles.main_style())
+        self.le_folder_name.setStyleSheet(styles.background_color("alternative_background_color"))
+        self.label.setStyleSheet(styles.background_color("alternative_background_color"))
         # self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
         self.mode = "add"
         self.parent = parent
@@ -27,8 +30,9 @@ class FolderWindow(QtWidgets.QWidget, Ui_DirectoryForm):
 
         self.le_folder_name.returnPressed.connect(lambda: self.selector())
         self.btn_ok.clicked.connect(lambda: self.selector())
-
         self.btn_cancel.clicked.connect(lambda: self.hide())
+        self.btn_ok.setStyleSheet(styles.btn_clicked_style())
+        self.btn_cancel.setStyleSheet(styles.btn_clicked_style())
 
     def selector(self):
         if self.mode == "add":
@@ -40,7 +44,7 @@ class FolderWindow(QtWidgets.QWidget, Ui_DirectoryForm):
         elif self.mode == "replace_item":
             self.replace_item()
         else:
-            print("неверный мод")
+            raise Exception("Uncorrect mod")
 
         self.hide()
 
@@ -115,17 +119,11 @@ class FolderWindow(QtWidgets.QWidget, Ui_DirectoryForm):
         if self.parent.folders_tree.currentItem().text(0) == "Все категории":
             parent_id = None
         else:
-            # parent_id = self.parent.data_base_connector.request(
-            #     f"SELECT id FROM folders WHERE name = '{self.parent.folders_tree.currentItem().text(0)}'")
             for folder in self.parent.folders:
                 if folder["name"] == parent_name:
-                    # print(f"Add {folder['name']}")
                     parent_id = folder["id"]
 
         new_folder = src.APIconector.add_folder(new_id, new_folder_name, parent_id)
-
-        # self.parent.data_base_connector.request(
-        #     f"INSERT INTO folders(id, name, parent_name) VALUES('{new_id}', '{new_folder}', '{parent_id}')")
 
         child = QTreeWidgetItem(self.parent.folders_tree.currentItem())
         child.setText(0, new_folder_name)
@@ -139,16 +137,13 @@ class FolderWindow(QtWidgets.QWidget, Ui_DirectoryForm):
             return False
         check = self.parent.data_base_connector.request(
             f"SELECT * FROM folders WHERE name = '{name}';")
-        print(check)
+
         if len(check) != 0:
-            print("mb")
             msg = QMessageBox()
             msg.setWindowTitle("Внимание")
             msg.setText("Категория с таким именем уже существует!")
             msg.setIcon(QMessageBox.Warning)
-            returnValue = msg.exec()
-            if returnValue == QMessageBox.Ok:
-                print('OK clicked')
+            msg.exec()
             return False
         return True
 
