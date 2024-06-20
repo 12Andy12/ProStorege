@@ -101,6 +101,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btn_exel.setStyleSheet(src.styles.btn_clicked_style())
         self.btnSearch.setStyleSheet(src.styles.btn_clicked_style())
         self.btn_save_config.setStyleSheet(src.styles.btn_clicked_style())
+        self.btn_font.setStyleSheet(src.styles.btn_clicked_style())
         self.folders_tree.setStyleSheet(src.styles.tree_style())
         self.searchLine.setStyleSheet(src.styles.background_color("alternative_background_color"))
         self.le_example_color.setStyleSheet(src.styles.background_color("main_background_color"))
