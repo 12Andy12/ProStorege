@@ -37,10 +37,10 @@ class Ui_LoginWindow(object):
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.label = QLabel(self.centralwidget)
-        self.label.setObjectName(u"label")
+        self.l_name = QLabel(self.centralwidget)
+        self.l_name.setObjectName(u"l_name")
 
-        self.horizontalLayout.addWidget(self.label)
+        self.horizontalLayout.addWidget(self.l_name)
 
         self.le_name = QLineEdit(self.centralwidget)
         self.le_name.setObjectName(u"le_name")
@@ -62,10 +62,10 @@ class Ui_LoginWindow(object):
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.label_2 = QLabel(self.centralwidget)
-        self.label_2.setObjectName(u"label_2")
+        self.l_password = QLabel(self.centralwidget)
+        self.l_password.setObjectName(u"l_password")
 
-        self.horizontalLayout_2.addWidget(self.label_2)
+        self.horizontalLayout_2.addWidget(self.l_password)
 
         self.le_password = QLineEdit(self.centralwidget)
         self.le_password.setObjectName(u"le_password")
@@ -116,8 +116,8 @@ class Ui_LoginWindow(object):
 
     def retranslateUi(self, LoginWindow):
         LoginWindow.setWindowTitle(QCoreApplication.translate("LoginWindow", u"MainWindow", None))
-        self.label.setText(QCoreApplication.translate("LoginWindow", u"\u041b\u043e\u0433\u0438\u043d", None))
-        self.label_2.setText(QCoreApplication.translate("LoginWindow", u"\u041f\u0430\u0440\u043e\u043b\u044c", None))
+        self.l_name.setText(QCoreApplication.translate("LoginWindow", u"\u041b\u043e\u0433\u0438\u043d", None))
+        self.l_password.setText(QCoreApplication.translate("LoginWindow", u"\u041f\u0430\u0440\u043e\u043b\u044c", None))
         self.l_error.setText("")
         self.btn_login.setText(QCoreApplication.translate("LoginWindow", u"\u0412\u043e\u0439\u0442\u0438", None))
         self.btn_new_account.setText(QCoreApplication.translate("LoginWindow", u"\u041d\u043e\u0432\u044b\u0439 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c", None))

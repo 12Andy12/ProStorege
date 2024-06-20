@@ -8,7 +8,7 @@ from PySide6.QtCore import *
 import sys
 import src.APIconector
 import src.resources
-import src.styles
+import src.styles as styles
 
 class OperationWindow(QtWidgets.QWidget, Ui_OperationForm):
     def __init__(self, parent=None):
@@ -16,13 +16,27 @@ class OperationWindow(QtWidgets.QWidget, Ui_OperationForm):
         self.old_pos = None
         self.hide()
         self.setupUi(self)
+        self.setStyleSheet(styles.main_style())
         self.parent = parent
         self.move(300, 300)
         self.btn_ok.clicked.connect(lambda: self.add_operation())
         self.btn_cancel.clicked.connect(lambda: self.close())
-        self.cb_operation_type.setStyleSheet(src.styles.combo_box_style)
-        self.de_date.setStyleSheet(src.styles.date_edit_style)
-        self.dsb_count.setStyleSheet(src.styles.spin_box_style("30", "rgb(65, 65, 65)"))
+        self.btn_ok.setStyleSheet(styles.btn_clicked_style())
+        self.btn_cancel.setStyleSheet(styles.btn_clicked_style())
+        self.label.setStyleSheet(styles.background_color("alternative_background_color"))
+        self.l_name.setStyleSheet(styles.background_color("alternative_background_color"))
+        self.l_id.setStyleSheet(styles.background_color("alternative_background_color"))
+        self.l_date.setStyleSheet(styles.background_color("alternative_background_color"))
+        self.l_count.setStyleSheet(styles.background_color("alternative_background_color"))
+        self.l_operation_type.setStyleSheet(styles.background_color("alternative_background_color"))
+        self.l_current_count.setStyleSheet(styles.background_color("alternative_background_color"))
+        self.cb_operation_type.setStyleSheet(styles.combo_box_style())
+        self.de_date.setStyleSheet(styles.date_edit_style())
+        self.dsb_count.setStyleSheet(styles.spin_box_style("30", "rgb(65, 65, 65)"))
+        self.le_id.setStyleSheet(styles.background_color("alternative_background_color"))
+        self.le_name.setStyleSheet(styles.background_color("alternative_background_color"))
+        self.le_current_count.setStyleSheet(styles.background_color("alternative_background_color"))
+
 
     def add_operation(self):
         name = self.le_name.text()
@@ -46,7 +60,7 @@ class OperationWindow(QtWidgets.QWidget, Ui_OperationForm):
             f"UPDATE goods SET number = {new_count} WHERE id = '{id}'")
 
         self.parent.data_base_connector.request(
-            f"INSERT INTO operations(good_id, operation, date, number, price) VALUES('{id}', '{operation}', '{date}', '{abs(add_count)}', '{price}')")
+            f"INSERT INTO operations(good_id, operation, date, number, price, result_sum) VALUES('{id}', '{operation}', '{date}', '{abs(add_count)}', '{price}', '{price * abs(add_count)}')")
 
         self.parent.on_dir_changed()
         self.close()

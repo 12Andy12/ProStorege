@@ -13,9 +13,15 @@ class LoginWindow(QtWidgets.QMainWindow, Ui_LoginWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
+        style.load_config()
         self.parent = parent
-        self.btn_login.setStyleSheet(style.btn_clicked_style)
-        self.btn_new_account.setStyleSheet(style.btn_clicked_style)
+        self.setStyleSheet(style.main_style())
+        self.l_name.setStyleSheet(style.background_color("main_background_color"))
+        self.l_password.setStyleSheet(style.background_color("main_background_color"))
+        self.le_password.setStyleSheet(style.background_color("main_background_color"))
+        self.le_name.setStyleSheet(style.background_color("main_background_color"))
+        self.btn_login.setStyleSheet(style.btn_clicked_style())
+        self.btn_new_account.setStyleSheet(style.btn_clicked_style())
         self.btn_login.clicked.connect(lambda: self.login())
         self.btn_new_account.clicked.connect(lambda: self.new_user())
         self.users = []

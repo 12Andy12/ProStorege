@@ -1,9 +1,6 @@
 from PySide6.QtWidgets import *
 from src.forms.MainForm import Ui_MainWindow
-from src.AddWindow import AddWindow
 from src.AddFolderWindow import FolderWindow
-from src.ChangeWindow import ChangeWindow
-from src.InfoWindow import InfoWindow
 from src.ItemWindow import ItemWindow
 from src.PeriodWindow import PeriodWindow
 from src.TraderLoginWindow import TraderLoginWindow
@@ -21,27 +18,14 @@ from datetime import datetime
 import pandas as pd
 import os
 
-
-class PushButton(QtWidgets.QPushButton):
-    doubleClick = QtCore.Signal()
-
-    def __init__(self):
-        super().__init__()
-
-    def mouseDoubleClickEvent(self, event):
-        if event.button() == QtCore.Qt.LeftButton:
-            self.doubleClick.emit()
-            print('doubleClick')
-
-        QtWidgets.QPushButton.mousePressEvent(self, event)
-
-
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, name="none", admin=True, parent=None):
         super().__init__(parent)
         self.setupUi(self)
-        print("Main Window created")
+
         self.admin = admin
+        self.reset_style()
+        print("Main Window created")
         self.name = name
         self.l_user_name.setText(name)
         if not admin:
@@ -51,32 +35,33 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.data_base_connector = DataBaseConnector()
         print("data base connector created")
 
-        self.add_window = AddWindow(self)
         self.folder_window = FolderWindow(self)
         self.item_window = ItemWindow(self)
-        self.change_window = ChangeWindow(self)
-        self.info_window = InfoWindow(self)
 
         self.folder_window.hide()
-        self.sb_discount_persent.setStyleSheet(src.styles.spin_box_style("30", "rgb(50, 50, 50)"))
+
+
         self.sb_discount_persent.valueChanged.connect(lambda: self.on_sum_changed())
-        self.tabWidget.setStyleSheet(src.styles.tab_style)
-        self.btn_without_terminal.setStyleSheet(src.styles.btn_clicked_style)
-        self.btn_clear_basket.setStyleSheet(src.styles.btn_clicked_style)
-        self.btn_terminal.setStyleSheet(src.styles.btn_clicked_style)
-        self.de_end.setStyleSheet(src.styles.date_edit_style)
-        self.de_start.setStyleSheet(src.styles.date_edit_style)
-        self.btn_exel.setStyleSheet(src.styles.btn_clicked_style)
-        self.btnSearch.setStyleSheet(src.styles.btn_clicked_style)
         self.a_create_exel_with_result.triggered.connect(lambda: PeriodWindow(self))
         self.folders_tree.currentItemChanged.connect(lambda: self.on_dir_changed())
+
+        self.de_end.dateChanged.connect(lambda: self.info_table_change())
+        self.de_start.dateChanged.connect(lambda: self.info_table_change())
+
+        self.btn_font.clicked.connect(lambda: self.set_new_font())
+        self.btn_exel.clicked.connect(lambda: self.generate_exel_with_result())
         self.btnSearch.clicked.connect(lambda: self.search(self.searchLine.text()))
         self.btn_clear_basket.clicked.connect(lambda: self.clear_basket())
         self.btn_without_terminal.clicked.connect(lambda: self.pay())
         self.btn_terminal.clicked.connect(lambda: self.pay(pay_with_terminal=True))
-        self.de_end.dateChanged.connect(lambda: self.info_table_change())
-        self.de_start.dateChanged.connect(lambda: self.info_table_change())
-        self.btn_exel.clicked.connect(lambda: self.generate_exel_with_result())
+        self.btn_save_config.clicked.connect(lambda: src.styles.save_config())
+
+        self.btn_color.clicked.connect(lambda: self.set_new_color("main_background_color"))
+        self.btn_alternative_color.clicked.connect(lambda: self.set_new_color("alternative_background_color"))
+        self.btn_object_color.clicked.connect(lambda: self.set_new_color("object_background_color"))
+        self.btn_object_hover_color.clicked.connect(lambda: self.set_new_color("object_hover_color"))
+        self.btn_object_press_color.clicked.connect(lambda: self.set_new_color("object_press_color"))
+        self.btn_font_color.clicked.connect(lambda: self.set_new_color("font_color"))
 
         self.count_parent = {}
         self.root_folder = None
@@ -90,24 +75,80 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.old_selectoin_name = "Все категории"
         # self.fillUsedId()
         # self.items_table.
+
+        self.de_end.setDate(QDate.currentDate())
+        self.load_folders()
+        self.draw_folders()
+        print("all draw")
+
+    def set_new_color(self, param):
+        src.styles.styles_config[param] = str(self.color_dialog())
+        self.reset_style()
+
+    def set_new_font(self):
+        src.styles.styles_config["font_family"], src.styles.styles_config["font_size"] = self.font_dialog()
+        self.reset_style()
+
+    def reset_style(self):
+        self.sb_discount_persent.setStyleSheet(src.styles.spin_box_style("30", "rgb(50, 50, 50)"))
+        self.setStyleSheet(src.styles.main_style())
+        self.tabWidget.setStyleSheet(src.styles.tab_style())
+        self.btn_without_terminal.setStyleSheet(src.styles.btn_clicked_style())
+        self.btn_clear_basket.setStyleSheet(src.styles.btn_clicked_style())
+        self.btn_terminal.setStyleSheet(src.styles.btn_clicked_style())
+        self.de_end.setStyleSheet(src.styles.date_edit_style())
+        self.de_start.setStyleSheet(src.styles.date_edit_style())
+        self.btn_exel.setStyleSheet(src.styles.btn_clicked_style())
+        self.btnSearch.setStyleSheet(src.styles.btn_clicked_style())
+        self.btn_save_config.setStyleSheet(src.styles.btn_clicked_style())
+        self.folders_tree.setStyleSheet(src.styles.tree_style())
+        self.searchLine.setStyleSheet(src.styles.background_color("alternative_background_color"))
+        self.le_example_color.setStyleSheet(src.styles.background_color("main_background_color"))
+        self.le_example_object_color.setStyleSheet(src.styles.background_color("object_background_color"))
+        self.le_example_object_hover_color.setStyleSheet(src.styles.background_color("object_hover_color"))
+        self.le_example_object_press_color.setStyleSheet(src.styles.background_color("object_press_color"))
+        self.le_example_object_alternative_color.setStyleSheet(src.styles.background_color("alternative_background_color"))
+        self.le_example_font_color.setStyleSheet(src.styles.background_color("font_color"))
+        self.btn_color.setStyleSheet(src.styles.btn_clicked_style())
+        self.btn_alternative_color.setStyleSheet(src.styles.btn_clicked_style())
+        self.btn_object_color.setStyleSheet(src.styles.btn_clicked_style())
+        self.btn_object_hover_color.setStyleSheet(src.styles.btn_clicked_style())
+        self.btn_object_press_color.setStyleSheet(src.styles.btn_clicked_style())
+        self.btn_font_color.setStyleSheet(src.styles.btn_clicked_style())
         self.init_table(self.items_table, ['', 'Наименование', 'Цена', 'Закуп. цена', 'Кол-во', ''], [1],
-                        [0, 0, 100, 100, 100, 100], self.table_right_clicked)
+                        [0, 0, 150, 150, 150, 100], self.table_right_clicked)
         self.init_table(self.basket_table, ['', 'Наименование', 'Цена', 'Кол-во'], [1],
                         [0, 0, 200, 300], self.basket_right_clicked)
-        if admin:
+        if self.admin:
             self.init_table(self.info_table,
                             ['дата', 'Наименование', 'операция', 'кол-во', 'цена', 'Скидка, %', 'Скидка, руб', 'сумма'],
                             [1],
-                            [100, 0, 200, 100, 100, 150, 150, 150], self.info_right_clicked)
+                            [150, 0, 200, 100, 100, 150, 150, 150], self.info_right_clicked)
 
             self.init_table(self.traders_table,
                             ['Логин', 'Пароль'],
                             [0, 1],
                             [], self.traders_right_clicked)
-        self.de_end.setDate(QDate.currentDate())
-        self.load_folders()
-        self.draw_folders()
-        print("all draw")
+
+    def color_dialog(self):
+
+        # creating a QColorDialog object
+        dialog = QColorDialog(self)
+        # setting custom colors
+        dialog.setCustomColor(0, QColor(50,50,50))
+        dialog.setCustomColor(1, Qt.red)
+        dialog.setCustomColor(2, Qt.green)
+        dialog.setCustomColor(3, Qt.yellow)
+        dialog.setCustomColor(4, Qt.blue)
+
+        dialog.exec_()
+        return QColor(dialog.currentColor()).getRgb()
+
+    def font_dialog(self):
+        dialog = QFontDialog(self)
+        dialog.exec_()
+
+        return str(dialog.currentFont().family()), str(dialog.currentFont().pointSize())
 
     def generate_exel_with_result(self):
         start_date = self.de_start.text()
@@ -136,8 +177,35 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if not self.admin:
             return
         self.info_table.setRowCount(0)
-        start_date = self.de_start.text()
-        end_date = self.de_end.text()
+        start_date = self.de_start.text().replace(" ", ".")
+        end_date = self.de_end.text().replace(" ", ".")
+        start_date = start_date.replace("Jan", "01")
+        start_date = start_date.replace("Feb", "02")
+        start_date = start_date.replace("Mar", "03")
+        start_date = start_date.replace("Apr", "04")
+        start_date = start_date.replace("May", "05")
+        start_date = start_date.replace("Jun", "06")
+        start_date = start_date.replace("Jul", "07")
+        start_date = start_date.replace("Aug", "08")
+        start_date = start_date.replace("Sep", "09")
+        start_date = start_date.replace("Oct", "10")
+        start_date = start_date.replace("Nov", "11")
+        start_date = start_date.replace("Dec", "12")
+
+        end_date = end_date.replace("Jan", "01")
+        end_date = end_date.replace("Feb", "02")
+        end_date = end_date.replace("Mar", "03")
+        end_date = end_date.replace("Apr", "04")
+        end_date = end_date.replace("May", "05")
+        end_date = end_date.replace("Jun", "06")
+        end_date = end_date.replace("Jul", "07")
+        end_date = end_date.replace("Aug", "08")
+        end_date = end_date.replace("Sep", "09")
+        end_date = end_date.replace("Oct", "10")
+        end_date = end_date.replace("Nov", "11")
+        end_date = end_date.replace("Dec", "12")
+
+
         data_from_db = self.data_base_connector.request(
             f"SELECT operations.date, goods.name, operations.operation, operations.number, operations.price,\
                      operations.discount_percent, operations.discount_money, operations.result_sum\
@@ -271,8 +339,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 table.setCellWidget(table.rowCount() - 1, i, item[i])
 
     def init_table(self, table, header, stretch_columns, column_width, context_menu):
-        table.horizontalHeader().setStyleSheet(src.styles.header_style)
-        table.setStyleSheet(src.styles.table_style)
+        table.horizontalHeader().setStyleSheet(src.styles.header_style())
+        table.setStyleSheet(src.styles.table_style())
         table.verticalHeader().hide()
         table.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger(0))
         table.setColumnCount(len(header))
@@ -332,14 +400,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         menu.exec_(self.items_table.viewport().mapToGlobal(pos))
 
     def traders_right_clicked(self, pos):
-        # print("traders right clicked")
         item = self.traders_table.itemAt(pos)
         menu = QtWidgets.QMenu()
         add_action = QAction("Добавить нового кассира")
         add_action.triggered.connect(lambda: self.open_trader_login_window())
         delete_action = QAction("Удалить")
-        delete_action.triggered.connect(lambda: print("del trader"))
-        if item is None:
+        delete_action.triggered.connect(lambda: self.del_current_trader())
+        if item is None or not self.admin:
             menu.addAction(add_action)
         else:
             menu.addAction(delete_action)
@@ -378,7 +445,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             if search_item.casefold() in self.data[item_id]["name"].casefold():
                 result.append(self.data[item_id])
                 self.add_in_item_table(self.data[item_id])
-        print(f"search result = {result}")
 
     def open_folder_window(self, mode):
         # folder_window = AddFolderWindow(self)
@@ -390,6 +456,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def open_trader_login_window(self):
         trader_login_window = TraderLoginWindow(admin_name=self.name, parent=self)
         # trader_login_window.show()
+
+    def del_current_trader(self):
+        trader_name = self.traders_table.currentItem().text()
+        self.traders_table.removeRow(self.traders_table.currentRow())
+        trader_login_window = TraderLoginWindow(admin_name=self.name, parent=self)
+        trader_login_window.hide()
+        for user in trader_login_window.users:
+            if user["name"] == self.name:
+                for trader in user["traders"]:
+                    if trader["name"] == trader_name:
+                        user["traders"].remove(trader)
+        trader_login_window.save_users()
 
     def open_item_window(self, mode):
         # folder_window = AddFolderWindow(self)
@@ -430,6 +508,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def del_item(self, del_item):
         del_item_id = self.items_table.item(del_item, 0).text()
+        self.data.pop(del_item_id)
         src.APIconector.del_good(del_item_id)
         self.items_table.removeRow(del_item)
 
@@ -455,7 +534,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.folders_tree.setColumnCount(1)
         self.folders_tree.setHeaderLabels(['Категории'])
-        self.folders_tree.setStyleSheet(src.styles.tree_style)
 
         is_current_item_set = False
         root = QTreeWidgetItem(self.folders_tree)

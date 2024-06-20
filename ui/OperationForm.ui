@@ -52,7 +52,7 @@ color: #b1b1b1;</string>
         <number>0</number>
        </property>
        <item>
-        <widget class="QLabel" name="label_7">
+        <widget class="QLabel" name="l_name">
          <property name="styleSheet">
           <string notr="true">background-color: rgb(60, 60, 60);</string>
          </property>
@@ -79,7 +79,7 @@ color: #b1b1b1;</string>
         <number>0</number>
        </property>
        <item>
-        <widget class="QLabel" name="label_6">
+        <widget class="QLabel" name="l_id">
          <property name="styleSheet">
           <string notr="true">background-color: rgb(60, 60, 60);</string>
          </property>
@@ -106,7 +106,7 @@ color: #b1b1b1;</string>
         <number>0</number>
        </property>
        <item>
-        <widget class="QLabel" name="label_5">
+        <widget class="QLabel" name="l_current_count">
          <property name="styleSheet">
           <string notr="true">background-color: rgb(60, 60, 60);</string>
          </property>
@@ -133,7 +133,7 @@ color: #b1b1b1;</string>
         <number>0</number>
        </property>
        <item>
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="l_operation_type">
          <property name="styleSheet">
           <string notr="true">background-color: rgb(60, 60, 60);</string>
          </property>
@@ -225,7 +225,7 @@ QComboBox QAbstractItemView {
         <number>0</number>
        </property>
        <item>
-        <widget class="QLabel" name="label_3">
+        <widget class="QLabel" name="l_date">
          <property name="styleSheet">
           <string notr="true">background-color: rgb(60, 60, 60);</string>
          </property>
@@ -260,6 +260,12 @@ QDateEdit::drop-down:pressed {
 	bbackground-color: rgb(120, 120, 120);
 }</string>
          </property>
+         <property name="locale">
+          <locale language="Russian" country="Russia"/>
+         </property>
+         <property name="inputMethodHints">
+          <set>Qt::ImhPreferNumbers</set>
+         </property>
          <property name="wrapping">
           <bool>false</bool>
          </property>
@@ -274,6 +280,9 @@ QDateEdit::drop-down:pressed {
          </property>
          <property name="showGroupSeparator" stdset="0">
           <bool>false</bool>
+         </property>
+         <property name="displayFormat">
+          <string notr="true">dd.MM.yyyy</string>
          </property>
          <property name="calendarPopup">
           <bool>true</bool>
@@ -295,7 +304,7 @@ QDateEdit::drop-down:pressed {
         <number>0</number>
        </property>
        <item>
-        <widget class="QLabel" name="label_4">
+        <widget class="QLabel" name="l_count">
          <property name="styleSheet">
           <string notr="true">background-color: rgb(60, 60, 60);</string>
          </property>
