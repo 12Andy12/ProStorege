@@ -4,20 +4,16 @@ USERS_PATH = "users.bin"
 
 
 def encrypt(line: str):
-    print(f"encrypt line = {line}")
     crypto = []
     for char in line:
         crypto.append(ord(char) ^ 0b11111111)
-    print(f"encrypt {line} -> {crypto}")
     return crypto
 
 
 def decrypt(line: list):
-    print(f"decrypt line = {line}")
     crypto = ""
     for char in line:
         crypto += chr(char ^ 0b11111111)
-    print(f"decrypt {line} -> {crypto}")
     return crypto
 
 

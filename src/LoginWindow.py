@@ -43,7 +43,6 @@ class LoginWindow(QtWidgets.QMainWindow, Ui_LoginWindow):
         save_users(self.users)
 
     def login(self):
-        print(f"all users = {self.users}")
         user_name = self.le_name.text()
         user_password = self.le_password.text()
         for user in self.users:

@@ -46,7 +46,6 @@ def get_directories():
 
 def get_all_goods():
     for i in range(5):
-        print(f"try get with page number = {i}")
         result = requests.get(
             "https://api.aqsi.ru/pub/v2/Goods/list",
             headers=headers,
