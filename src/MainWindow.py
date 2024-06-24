@@ -349,11 +349,21 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def add_in_table(self, table, item):
         table.setRowCount(table.rowCount() + 1)
-        for i in range(len(item)):
-            if isinstance(item[i], str):
-                table.setItem(table.rowCount() - 1, i, QtWidgets.QTableWidgetItem(item[i]))
+        for col in range(len(item)):
+            if isinstance(item[col], str):
+                table.setItem(table.rowCount() - 1, col, QtWidgets.QTableWidgetItem(item[col]))
+                if table == self.items_table and col == 4:
+                    l = QLabel()
+                    l.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+                    l.setText(item[col])
+                    if item[col].split(" ")[0] <= "0.0":
+                        l.setStyleSheet(src.styles.background_color("error"))
+                    else:
+                        l.setStyleSheet(src.styles.btn_clicked_style())
+                    table.setCellWidget(table.rowCount() - 1, col, l)
+
             else:
-                table.setCellWidget(table.rowCount() - 1, i, item[i])
+                table.setCellWidget(table.rowCount() - 1, col, item[col])
 
     def init_table(self, table, header, stretch_columns, column_width, context_menu):
         table.horizontalHeader().setStyleSheet(src.styles.header_style())

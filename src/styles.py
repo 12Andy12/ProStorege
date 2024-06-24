@@ -12,6 +12,7 @@ styles_config = {
     "object_press_color": str((75, 75, 75, 255)),
     "font_family": "Times New Roman",
     "font_size": "14",
+    "error": str((150, 0, 0, 255)),
 }
 
 
