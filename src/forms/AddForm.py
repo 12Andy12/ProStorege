@@ -8,51 +8,55 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
-from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QHBoxLayout, QHeaderView, QLabel,
-    QLayout, QLineEdit, QMainWindow, QPushButton,
-    QSizePolicy, QSpacerItem, QStatusBar, QTableWidget,
-    QTableWidgetItem, QVBoxLayout, QWidget)
+from PySide6.QtCore import QCoreApplication, QMetaObject, QSize
+from PySide6.QtWidgets import (
+    QHBoxLayout,
+    QLabel,
+    QLayout,
+    QLineEdit,
+    QPushButton,
+    QSizePolicy,
+    QSpacerItem,
+    QStatusBar,
+    QTableWidget,
+    QVBoxLayout,
+    QWidget,
+)
+
 
 class Ui_AddWindow(object):
     def setupUi(self, AddWindow):
         if not AddWindow.objectName():
-            AddWindow.setObjectName(u"AddWindow")
+            AddWindow.setObjectName("AddWindow")
         AddWindow.resize(775, 434)
-        AddWindow.setStyleSheet(u"font: 12pt \"Times New Roman\";\n"
-"background-color: rgb(50, 50, 50);\n"
-"color: #b1b1b1;")
+        AddWindow.setStyleSheet(
+            'font: 12pt "Times New Roman";\n' "background-color: rgb(50, 50, 50);\n" "color: #b1b1b1;"
+        )
         self.centralwidget = QWidget(AddWindow)
-        self.centralwidget.setObjectName(u"centralwidget")
+        self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayout_8 = QHBoxLayout(self.centralwidget)
-        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
+        self.horizontalLayout_8.setObjectName("horizontalLayout_8")
         self.horizontalSpacer = QSpacerItem(213, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout_8.addItem(self.horizontalSpacer)
 
         self.verticalLayout_2 = QVBoxLayout()
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_2.addItem(self.verticalSpacer_2)
 
         self.verticalLayout = QVBoxLayout()
-        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setObjectName("verticalLayout")
         self.horizontalLayout_7 = QHBoxLayout()
-        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
+        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.label = QLabel(self.centralwidget)
-        self.label.setObjectName(u"label")
+        self.label.setObjectName("label")
 
         self.horizontalLayout_7.addWidget(self.label)
 
         self.itemName = QLineEdit(self.centralwidget)
-        self.itemName.setObjectName(u"itemName")
+        self.itemName.setObjectName("itemName")
 
         self.horizontalLayout_7.addWidget(self.itemName)
 
@@ -62,14 +66,14 @@ class Ui_AddWindow(object):
         self.verticalLayout.addLayout(self.horizontalLayout_7)
 
         self.horizontalLayout_6 = QHBoxLayout()
-        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
         self.label_3 = QLabel(self.centralwidget)
-        self.label_3.setObjectName(u"label_3")
+        self.label_3.setObjectName("label_3")
 
         self.horizontalLayout_6.addWidget(self.label_3)
 
         self.price = QLineEdit(self.centralwidget)
-        self.price.setObjectName(u"price")
+        self.price.setObjectName("price")
 
         self.horizontalLayout_6.addWidget(self.price)
 
@@ -79,14 +83,14 @@ class Ui_AddWindow(object):
         self.verticalLayout.addLayout(self.horizontalLayout_6)
 
         self.horizontalLayout_5 = QHBoxLayout()
-        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.label_4 = QLabel(self.centralwidget)
-        self.label_4.setObjectName(u"label_4")
+        self.label_4.setObjectName("label_4")
 
         self.horizontalLayout_5.addWidget(self.label_4)
 
         self.originalPrice = QLineEdit(self.centralwidget)
-        self.originalPrice.setObjectName(u"originalPrice")
+        self.originalPrice.setObjectName("originalPrice")
 
         self.horizontalLayout_5.addWidget(self.originalPrice)
 
@@ -96,14 +100,14 @@ class Ui_AddWindow(object):
         self.verticalLayout.addLayout(self.horizontalLayout_5)
 
         self.horizontalLayout_3 = QHBoxLayout()
-        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.label_6 = QLabel(self.centralwidget)
-        self.label_6.setObjectName(u"label_6")
+        self.label_6.setObjectName("label_6")
 
         self.horizontalLayout_3.addWidget(self.label_6)
 
         self.count = QLineEdit(self.centralwidget)
-        self.count.setObjectName(u"count")
+        self.count.setObjectName("count")
 
         self.horizontalLayout_3.addWidget(self.count)
 
@@ -113,14 +117,14 @@ class Ui_AddWindow(object):
         self.verticalLayout.addLayout(self.horizontalLayout_3)
 
         self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.label_7 = QLabel(self.centralwidget)
-        self.label_7.setObjectName(u"label_7")
+        self.label_7.setObjectName("label_7")
 
         self.horizontalLayout_2.addWidget(self.label_7)
 
         self.type = QLineEdit(self.centralwidget)
-        self.type.setObjectName(u"type")
+        self.type.setObjectName("type")
 
         self.horizontalLayout_2.addWidget(self.type)
 
@@ -138,28 +142,30 @@ class Ui_AddWindow(object):
         self.verticalLayout_2.addLayout(self.verticalLayout)
 
         self.btnAddTags = QPushButton(self.centralwidget)
-        self.btnAddTags.setObjectName(u"btnAddTags")
+        self.btnAddTags.setObjectName("btnAddTags")
         sizePolicy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.btnAddTags.sizePolicy().hasHeightForWidth())
         self.btnAddTags.setSizePolicy(sizePolicy)
-        self.btnAddTags.setStyleSheet(u"QPushButton{\n"
-"	background-color: rgb(75, 75, 75);\n"
-"	border-radius: 10px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"     background-color: rgb(80,80, 80);\n"
-"}\n"
-"QPushButton:pressed {\n"
-"    background-color: rgb(120,120,120);\n"
-"}\n"
-"")
+        self.btnAddTags.setStyleSheet(
+            "QPushButton{\n"
+            "	background-color: rgb(75, 75, 75);\n"
+            "	border-radius: 10px;\n"
+            "}\n"
+            "QPushButton:hover {\n"
+            "     background-color: rgb(80,80, 80);\n"
+            "}\n"
+            "QPushButton:pressed {\n"
+            "    background-color: rgb(120,120,120);\n"
+            "}\n"
+            ""
+        )
 
         self.verticalLayout_2.addWidget(self.btnAddTags)
 
         self.tagsTable = QTableWidget(self.centralwidget)
-        self.tagsTable.setObjectName(u"tagsTable")
+        self.tagsTable.setObjectName("tagsTable")
 
         self.verticalLayout_2.addWidget(self.tagsTable)
 
@@ -168,46 +174,50 @@ class Ui_AddWindow(object):
         self.verticalLayout_2.addItem(self.verticalSpacer)
 
         self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalLayout.setObjectName("horizontalLayout")
         self.horizontalLayout.setSizeConstraint(QLayout.SetMaximumSize)
         self.btnAdd = QPushButton(self.centralwidget)
-        self.btnAdd.setObjectName(u"btnAdd")
+        self.btnAdd.setObjectName("btnAdd")
         sizePolicy1 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.btnAdd.sizePolicy().hasHeightForWidth())
         self.btnAdd.setSizePolicy(sizePolicy1)
         self.btnAdd.setMaximumSize(QSize(16777215, 40))
-        self.btnAdd.setStyleSheet(u"QPushButton{\n"
-"	background-color: rgb(75, 75, 75);\n"
-"	border-radius: 10px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"     background-color: rgb(80,80, 80);\n"
-"}\n"
-"QPushButton:pressed {\n"
-"    background-color: rgb(120,120,120);\n"
-"}\n"
-"")
+        self.btnAdd.setStyleSheet(
+            "QPushButton{\n"
+            "	background-color: rgb(75, 75, 75);\n"
+            "	border-radius: 10px;\n"
+            "}\n"
+            "QPushButton:hover {\n"
+            "     background-color: rgb(80,80, 80);\n"
+            "}\n"
+            "QPushButton:pressed {\n"
+            "    background-color: rgb(120,120,120);\n"
+            "}\n"
+            ""
+        )
 
         self.horizontalLayout.addWidget(self.btnAdd)
 
         self.btnCancel = QPushButton(self.centralwidget)
-        self.btnCancel.setObjectName(u"btnCancel")
+        self.btnCancel.setObjectName("btnCancel")
         sizePolicy1.setHeightForWidth(self.btnCancel.sizePolicy().hasHeightForWidth())
         self.btnCancel.setSizePolicy(sizePolicy1)
         self.btnCancel.setMaximumSize(QSize(16777215, 40))
-        self.btnCancel.setStyleSheet(u"QPushButton{\n"
-"	background-color: rgb(75, 75, 75);\n"
-"	border-radius: 10px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"     background-color: rgb(80,80, 80);\n"
-"}\n"
-"QPushButton:pressed {\n"
-"    background-color: rgb(120,120,120);\n"
-"}\n"
-"")
+        self.btnCancel.setStyleSheet(
+            "QPushButton{\n"
+            "	background-color: rgb(75, 75, 75);\n"
+            "	border-radius: 10px;\n"
+            "}\n"
+            "QPushButton:hover {\n"
+            "     background-color: rgb(80,80, 80);\n"
+            "}\n"
+            "QPushButton:pressed {\n"
+            "    background-color: rgb(120,120,120);\n"
+            "}\n"
+            ""
+        )
 
         self.horizontalLayout.addWidget(self.btnCancel)
 
@@ -239,27 +249,52 @@ class Ui_AddWindow(object):
         self.horizontalLayout_8.setStretch(2, 1)
         AddWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(AddWindow)
-        self.statusbar.setObjectName(u"statusbar")
+        self.statusbar.setObjectName("statusbar")
         AddWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(AddWindow)
 
         QMetaObject.connectSlotsByName(AddWindow)
+
     # setupUi
 
     def retranslateUi(self, AddWindow):
-        AddWindow.setWindowTitle(QCoreApplication.translate("AddWindow", u"\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u0430", None))
-        self.label.setText(QCoreApplication.translate("AddWindow", u"\u041d\u0430\u0438\u043c\u0435\u043d\u043e\u0432\u0430\u043d\u0438\u0435", None))
-        self.label_3.setText(QCoreApplication.translate("AddWindow", u"\u0426\u0435\u043d\u0430 \u043f\u0440\u043e\u0434\u0430\u0436\u044b", None))
+        AddWindow.setWindowTitle(
+            QCoreApplication.translate(
+                "AddWindow",
+                "\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u0430",
+                None,
+            )
+        )
+        self.label.setText(
+            QCoreApplication.translate(
+                "AddWindow", "\u041d\u0430\u0438\u043c\u0435\u043d\u043e\u0432\u0430\u043d\u0438\u0435", None
+            )
+        )
+        self.label_3.setText(
+            QCoreApplication.translate(
+                "AddWindow", "\u0426\u0435\u043d\u0430 \u043f\u0440\u043e\u0434\u0430\u0436\u044b", None
+            )
+        )
         self.price.setText("")
-        self.label_4.setText(QCoreApplication.translate("AddWindow", u"\u0426\u0435\u043d\u0430 \u0437\u0430\u043a\u0443\u043f\u043a\u0438", None))
+        self.label_4.setText(
+            QCoreApplication.translate(
+                "AddWindow", "\u0426\u0435\u043d\u0430 \u0437\u0430\u043a\u0443\u043f\u043a\u0438", None
+            )
+        )
         self.originalPrice.setText("")
-        self.label_6.setText(QCoreApplication.translate("AddWindow", u"\u041a\u043e\u043b-\u0432\u043e", None))
+        self.label_6.setText(QCoreApplication.translate("AddWindow", "\u041a\u043e\u043b-\u0432\u043e", None))
         self.count.setText("")
-        self.label_7.setText(QCoreApplication.translate("AddWindow", u"\u0435\u0434. \u0438\u0437\u043c\u0435\u0440\u0435\u043d\u0438\u044f", None))
+        self.label_7.setText(
+            QCoreApplication.translate(
+                "AddWindow", "\u0435\u0434. \u0438\u0437\u043c\u0435\u0440\u0435\u043d\u0438\u044f", None
+            )
+        )
         self.type.setText("")
-        self.btnAddTags.setText(QCoreApplication.translate("AddWindow", u"addTag", None))
-        self.btnAdd.setText(QCoreApplication.translate("AddWindow", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c", None))
-        self.btnCancel.setText(QCoreApplication.translate("AddWindow", u"\u041e\u0442\u043c\u0435\u043d\u0430", None))
-    # retranslateUi
+        self.btnAddTags.setText(QCoreApplication.translate("AddWindow", "addTag", None))
+        self.btnAdd.setText(
+            QCoreApplication.translate("AddWindow", "\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c", None)
+        )
+        self.btnCancel.setText(QCoreApplication.translate("AddWindow", "\u041e\u0442\u043c\u0435\u043d\u0430", None))
 
+    # retranslateUi

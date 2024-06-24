@@ -1,8 +1,6 @@
-import pickle
-
 from src.forms.TraderLoginForm import Ui_TraderLoginForm
 from src.UserController import save_users, load_users
-from PySide6 import QtCore, QtWidgets, QtGui
+from PySide6 import QtCore, QtWidgets
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
@@ -41,17 +39,13 @@ class TraderLoginWindow(QtWidgets.QWidget, Ui_TraderLoginForm):
         if trader_password == "":
             self.l_error.setText("Пароль не может быть пустым")
         self.l_error.setText("")
-        new_trader = {
-            "name": trader_name,
-            "password": trader_password
-        }
+        new_trader = {"name": trader_name, "password": trader_password}
         for user in self.users:
             if user["name"] == self.admin_name:
                 user["traders"].append(new_trader)
         self.parent.add_in_table(self.parent.traders_table, [trader_name, trader_password])
         save_users(self.users)
         self.close()
-
 
     def mousePressEvent(self, event):
         if event.button() == QtCore.Qt.LeftButton:

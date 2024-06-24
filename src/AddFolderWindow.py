@@ -1,11 +1,8 @@
-from PySide6.QtWidgets import *
 from src.forms.DirectoryForm import Ui_DirectoryForm
 import src.DBconector
-from PySide6 import QtCore, QtWidgets, QtGui
+from PySide6 import QtCore, QtWidgets
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
-from PySide6.QtCore import *
-import sys
 import src.styles as styles
 import src.APIconector
 
@@ -13,21 +10,16 @@ import src.APIconector
 class FolderWindow(QtWidgets.QWidget, Ui_DirectoryForm):
     def __init__(self, parent=None):
         super().__init__(parent)
-        # self.ui = Ui_AddDirectoryForm()
         self.setupUi(self)
         self.move(300, 300)
         self.setStyleSheet(styles.main_style())
         self.le_folder_name.setStyleSheet(styles.background_color("alternative_background_color"))
         self.label.setStyleSheet(styles.background_color("alternative_background_color"))
-        # self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
         self.mode = "add"
         self.parent = parent
         self.current_folder: QTreeWidgetItem
-
-        # self.le_folder_name.editingFinished.connect(lambda: self.hide())
         self.old_pos = None
         self.hide()
-
         self.le_folder_name.returnPressed.connect(lambda: self.selector())
         self.btn_ok.clicked.connect(lambda: self.selector())
         self.btn_cancel.clicked.connect(lambda: self.hide())
@@ -92,8 +84,6 @@ class FolderWindow(QtWidgets.QWidget, Ui_DirectoryForm):
         self.parent.draw_folders()
         self.parent.old_selection_name = name
 
-
-
     def rename_folder(self):
         new_name = self.le_folder_name.text()
         old_name = self.parent.folders_tree.currentItem().text(0)
@@ -107,7 +97,6 @@ class FolderWindow(QtWidgets.QWidget, Ui_DirectoryForm):
                 break
 
         self.parent.folders_tree.currentItem().setText(0, new_name)
-
 
     def add_folder(self):
         new_id = src.APIconector.generate_id()
@@ -123,7 +112,7 @@ class FolderWindow(QtWidgets.QWidget, Ui_DirectoryForm):
                 if folder["name"] == parent_name:
                     parent_id = folder["id"]
 
-        new_folder = src.APIconector.add_folder(new_id, new_folder_name, parent_id)
+        src.APIconector.add_folder(new_id, new_folder_name, parent_id)
 
         child = QTreeWidgetItem(self.parent.folders_tree.currentItem())
         child.setText(0, new_folder_name)
@@ -135,8 +124,7 @@ class FolderWindow(QtWidgets.QWidget, Ui_DirectoryForm):
         if name == "":
             self.close()
             return False
-        check = self.parent.data_base_connector.request(
-            f"SELECT * FROM folders WHERE name = '{name}';")
+        check = self.parent.data_base_connector.request(f"SELECT * FROM folders WHERE name = '{name}';")
 
         if len(check) != 0:
             msg = QMessageBox()
@@ -168,6 +156,3 @@ class FolderWindow(QtWidgets.QWidget, Ui_DirectoryForm):
 
     def focusInEvent(self, e):
         self.le_folder_name.setFocus()
-
-
-

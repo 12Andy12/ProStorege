@@ -5,18 +5,17 @@ from src.ItemWindow import ItemWindow
 from src.PeriodWindow import PeriodWindow
 from src.TraderLoginWindow import TraderLoginWindow
 from src.OperationWindows import OperationWindow
-from PySide6 import QtCore, QtWidgets, QtGui
+from PySide6 import QtCore, QtWidgets
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
 from src.DBconector import DataBaseConnector
-import pandas
 import src.APIconector
 import src.resources
 import src.styles
 from datetime import datetime
 import pandas as pd
-import os
+
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, name="none", admin=True, parent=None):
@@ -39,7 +38,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.item_window = ItemWindow(self)
 
         self.folder_window.hide()
-
 
         self.sb_discount_persent.valueChanged.connect(lambda: self.on_sum_changed())
         self.a_create_exel_with_result.triggered.connect(lambda: PeriodWindow(self))
@@ -108,7 +106,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.le_example_object_color.setStyleSheet(src.styles.background_color("object_background_color"))
         self.le_example_object_hover_color.setStyleSheet(src.styles.background_color("object_hover_color"))
         self.le_example_object_press_color.setStyleSheet(src.styles.background_color("object_press_color"))
-        self.le_example_object_alternative_color.setStyleSheet(src.styles.background_color("alternative_background_color"))
+        self.le_example_object_alternative_color.setStyleSheet(
+            src.styles.background_color("alternative_background_color")
+        )
         self.le_example_font_color.setStyleSheet(src.styles.background_color("font_color"))
         self.btn_color.setStyleSheet(src.styles.btn_clicked_style())
         self.btn_alternative_color.setStyleSheet(src.styles.btn_clicked_style())
@@ -116,27 +116,32 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btn_object_hover_color.setStyleSheet(src.styles.btn_clicked_style())
         self.btn_object_press_color.setStyleSheet(src.styles.btn_clicked_style())
         self.btn_font_color.setStyleSheet(src.styles.btn_clicked_style())
-        self.init_table(self.items_table, ['', 'Наименование', 'Цена', 'Закуп. цена', 'Кол-во', ''], [1],
-                        [0, 0, 150, 150, 150, 100], self.table_right_clicked)
-        self.init_table(self.basket_table, ['', 'Наименование', 'Цена', 'Кол-во'], [1],
-                        [0, 0, 200, 300], self.basket_right_clicked)
+        self.init_table(
+            self.items_table,
+            ["", "Наименование", "Цена", "Закуп. цена", "Кол-во", ""],
+            [1],
+            [0, 0, 150, 150, 150, 100],
+            self.table_right_clicked,
+        )
+        self.init_table(
+            self.basket_table, ["", "Наименование", "Цена", "Кол-во"], [1], [0, 0, 200, 300], self.basket_right_clicked
+        )
         if self.admin:
-            self.init_table(self.info_table,
-                            ['дата', 'Наименование', 'операция', 'кол-во', 'цена', 'Скидка, %', 'Скидка, руб', 'сумма'],
-                            [1],
-                            [150, 0, 200, 100, 100, 150, 150, 150], self.info_right_clicked)
+            self.init_table(
+                self.info_table,
+                ["дата", "Наименование", "операция", "кол-во", "цена", "Скидка, %", "Скидка, руб", "сумма"],
+                [1],
+                [150, 0, 200, 100, 100, 150, 150, 150],
+                self.info_right_clicked,
+            )
 
-            self.init_table(self.traders_table,
-                            ['Логин', 'Пароль'],
-                            [0, 1],
-                            [], self.traders_right_clicked)
+            self.init_table(self.traders_table, ["Логин", "Пароль"], [0, 1], [], self.traders_right_clicked)
 
     def color_dialog(self):
-
         # creating a QColorDialog object
         dialog = QColorDialog(self)
         # setting custom colors
-        dialog.setCustomColor(0, QColor(50,50,50))
+        dialog.setCustomColor(0, QColor(50, 50, 50))
         dialog.setCustomColor(1, Qt.red)
         dialog.setCustomColor(2, Qt.green)
         dialog.setCustomColor(3, Qt.yellow)
@@ -165,13 +170,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 line.append(self.info_table.item(i, j).text())
             result_data.append(line)
 
-        result_data.append(['Товаров поступило на сумму', self.supply.text()])
-        result_data.append(['Товаров проданно на сумму', self.sale.text()])
-        result_data.append(['Итого', self.result.text()])
+        result_data.append(["Товаров поступило на сумму", self.supply.text()])
+        result_data.append(["Товаров проданно на сумму", self.sale.text()])
+        result_data.append(["Итого", self.result.text()])
         # print(result_data)
-        data = pd.DataFrame(data=result_data,
-                            columns=['дата', 'Наименование', 'операция', 'кол-во', 'цена', 'Скидка, %', 'Скидка, руб',
-                                     'сумма'])
+        data = pd.DataFrame(
+            data=result_data,
+            columns=["дата", "Наименование", "операция", "кол-во", "цена", "Скидка, %", "Скидка, руб", "сумма"],
+        )
         data.to_excel(file_path, index=False)
 
     def info_table_change(self):
@@ -206,12 +212,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         end_date = end_date.replace("Nov", "11")
         end_date = end_date.replace("Dec", "12")
 
-
         data_from_db = self.data_base_connector.request(
-            f"SELECT operations.date, goods.name, operations.operation, operations.number, operations.price,\
+            "SELECT operations.date, goods.name, operations.operation, operations.number, operations.price,\
                      operations.discount_percent, operations.discount_money, operations.result_sum\
                         FROM operations\
-                        JOIN goods ON goods.id = operations.good_id;")
+                        JOIN goods ON goods.id = operations.good_id;"
+        )
         # print(f"data_from_db = {data_from_db}")
         count_supply = 0
         count_sale = 0
@@ -221,9 +227,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             start_datetime = datetime.strptime(start_date, "%d.%m.%Y").date()
             end_datetime = datetime.strptime(end_date, "%d.%m.%Y").date()
             if start_datetime <= current_datetime <= end_datetime:
-                self.add_in_table(self.info_table,
-                                  [row[0], row[1], row[2], str(row[3]), str(row[4]), str(row[5]), str(row[6]),
-                                   str(row[7])])
+                self.add_in_table(
+                    self.info_table,
+                    [row[0], row[1], row[2], str(row[3]), str(row[4]), str(row[5]), str(row[6]), str(row[7])],
+                )
                 if row[2] == "Поступление":
                     count_supply += row[3] * row[4]
                 elif row[2] == "Продажа":
@@ -248,7 +255,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                     new_position = self.data[item_id]
                     break
 
-            name = self.basket_table.item(row, 1).text()
+            self.basket_table.item(row, 1).text()
             price = float(self.basket_table.item(row, 2).text())
             count = self.basket_table.cellWidget(row, 3).value()
             discount_percent = self.sb_discount_persent.value()
@@ -258,16 +265,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             new_position["quantity"] = count
             new_position["discountPercent"] = discount_percent
             new_position["discountMoney"] = discount_money
-            current_count = self.data_base_connector.request(
-                f"SELECT number FROM goods WHERE id = '{id}'")[0][0]
+            current_count = self.data_base_connector.request(f"SELECT number FROM goods WHERE id = '{id}'")[0][0]
             new_count = current_count - count
-            self.data_base_connector.request(
-                f"UPDATE goods SET number = {new_count} WHERE id = '{id}'")
+            self.data_base_connector.request(f"UPDATE goods SET number = {new_count} WHERE id = '{id}'")
             date = f"{datetime.now().day:02}.{datetime.now().month:02}.{datetime.now().year}"
             # result_sum = abs(count) * price
             self.data_base_connector.request(
                 f"""INSERT INTO operations(good_id, operation, date, number, price, discount_money, discount_percent, result_sum) 
-                    VALUES('{id}', 'Продажа', '{date}', '{abs(count)}', '{price}', '{discount_money}', '{discount_percent}', '{sum}')""")
+                    VALUES('{id}', 'Продажа', '{date}', '{abs(count)}', '{price}', '{discount_money}', '{discount_percent}', '{sum}')"""
+            )
 
             result_positions.append(new_position)
 
@@ -300,7 +306,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             return
 
         for item_id in self.data:
-            if self.data[item_id]["group_id"] == current_folder['id']:
+            if self.data[item_id]["group_id"] == current_folder["id"]:
                 self.add_in_item_table(self.data[item_id])
 
     def add_in_info_table(self, item):
@@ -310,7 +316,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         count = self.data_base_connector.request(f"SELECT number FROM goods WHERE id = '{item['id']}'")
         if len(count) == 0:
             self.data_base_connector.request(
-                f"INSERT INTO goods(id, name, number) VALUES('{item['id']}', '{item['name']}', '0')")
+                f"INSERT INTO goods(id, name, number) VALUES('{item['id']}', '{item['name']}', '0')"
+            )
             count = [(0.0,)]
 
         btn_basket = QPushButton()
@@ -318,8 +325,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         btn_basket.setIconSize(QSize(20, 20))
         btn_basket.setStyleSheet(src.styles.btn_basket_style)
         btn_basket.clicked.connect(lambda: self.add_in_basket_table(item))
-        self.add_in_table(self.items_table, [item["id"], item["name"], str(item["price"]), str(item["productionCost"]),
-                                             str(count[0][0]) + " " + item["unit"], btn_basket])
+        self.add_in_table(
+            self.items_table,
+            [
+                item["id"],
+                item["name"],
+                str(item["price"]),
+                str(item["productionCost"]),
+                str(count[0][0]) + " " + item["unit"],
+                btn_basket,
+            ],
+        )
 
     def add_in_traders_table(self, traders):
         for trader in traders:
@@ -358,7 +374,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             if i in stretch_columns:
                 table.horizontalHeader().setSectionResizeMode(i, QHeaderView.ResizeMode.Stretch)
                 table.horizontalHeaderItem(i).setTextAlignment(
-                    QtCore.Qt.AlignmentFlag.AlignVCenter | QtCore.Qt.AlignmentFlag.AlignHCenter)
+                    QtCore.Qt.AlignmentFlag.AlignVCenter | QtCore.Qt.AlignmentFlag.AlignHCenter
+                )
             else:
                 table.setColumnWidth(i, column_width[i])
 
@@ -455,7 +472,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.folder_window.show()
 
     def open_trader_login_window(self):
-        trader_login_window = TraderLoginWindow(admin_name=self.name, parent=self)
+        TraderLoginWindow(admin_name=self.name, parent=self)
         # trader_login_window.show()
 
     def del_current_trader(self):
@@ -534,9 +551,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.folders_tree.customContextMenuRequested.connect(self.folder_right_clicked)
 
         self.folders_tree.setColumnCount(1)
-        self.folders_tree.setHeaderLabels(['Категории'])
+        self.folders_tree.setHeaderLabels(["Категории"])
 
-        is_current_item_set = False
         root = QTreeWidgetItem(self.folders_tree)
         root.setText(0, "Все категории")
         root.setIcon(0, QIcon(":/iconFolder.png"))
@@ -544,7 +560,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.count_parent["Все категории"] = 0
         self.folders_tree.setCurrentItem(self.root_folder)
         for folder in self.folders:
-            if folder['parent'] is None:
+            if folder["parent"] is None:
                 current_dir = QTreeWidgetItem(root)
                 current_dir.setText(0, folder["name"])
                 current_dir.setIcon(0, QIcon("images/iconFolder.png"))

@@ -38,16 +38,16 @@ class DataBaseConnector:
     def init_tables(self):
         try:
             self.cursor.execute(
-                    """
+                """
                     CREATE TABLE IF NOT EXISTS folders(
                         id text PRIMARY KEY,
                         name,
                         parent_name text,
                         UNIQUE(id));
                     """
-                    )
+            )
             self.cursor.execute(
-                    """
+                """
                     CREATE TABLE IF NOT EXISTS items(
                         id text PRIMARY KEY,
                         name text,
@@ -57,14 +57,14 @@ class DataBaseConnector:
                         type double precision,
                         folder text REFERENCES folders (name));
                     """
-                    )
+            )
             self.cursor.execute(
-                    """
+                """
                     CREATE TABLE IF NOT EXISTS tags(
                         id INTEGER REFERENCES items (id),
                         tags text);
                     """
-                    )
+            )
             self.connection.commit()
             print("[INFO] SQL initialization tables successful")
         except Exception as _ex:
@@ -86,4 +86,3 @@ class DataBaseConnector:
         if self.connection:
             self.connection.close()
             print("[INFO] SQL connection closed")
-

@@ -1,11 +1,10 @@
 from PySide6.QtWidgets import *
 from src.forms.ItemForm import Ui_ItemsForm
 import src.DBconector
-from PySide6 import QtCore, QtWidgets, QtGui
+from PySide6 import QtCore, QtWidgets
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
-import sys
 import src.APIconector
 import src.styles as styles
 
@@ -97,7 +96,7 @@ class ItemWindow(QtWidgets.QWidget, Ui_ItemsForm):
             msg.setIcon(QMessageBox.Warning)
             returnValue = msg.exec()
             if returnValue == QMessageBox.Ok:
-                print('OK clicked')
+                print("OK clicked")
             return False
 
     # вызывается при нажатии кнопки мыши

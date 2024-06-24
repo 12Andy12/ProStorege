@@ -1,15 +1,13 @@
 from PySide6.QtWidgets import *
 from src.forms.PeriodForm import Ui_PeriodForm
 import src.DBconector
-from PySide6 import QtCore, QtWidgets, QtGui
+from PySide6 import QtCore, QtWidgets
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
-import sys
 import pandas as pd
 import src.APIconector
 import os
-import openpyxl
 from datetime import datetime
 import src.styles
 
@@ -33,13 +31,13 @@ class PeriodWindow(QtWidgets.QWidget, Ui_PeriodForm):
         end_date = self.date_end.text()
         exel_name = f"отчет за период c {start_date} по {end_date}.xlsx"
         data_from_db = self.parent.data_base_connector.request(
-            f"SELECT goods.name, operations.date, operations.operation, operations.number, operations.price\
+            "SELECT goods.name, operations.date, operations.operation, operations.number, operations.price\
                 FROM operations\
-                JOIN goods ON goods.id = operations.good_id;")
+                JOIN goods ON goods.id = operations.good_id;"
+        )
         result_data = []
         count_supply = 0
         count_sale = 0
-        count_miss = 0
         for row in data_from_db:
             print(row)
             current_datetime = datetime.strptime(row[1], "%d.%m.%Y").date()
@@ -52,13 +50,13 @@ class PeriodWindow(QtWidgets.QWidget, Ui_PeriodForm):
                 elif row[2] == "Продажа":
                     count_sale += row[3] * row[4]
 
-        row_supply = ['Товаров поступило на сумму', count_supply]
-        row_sale = ['Товаров проданно на сумму', count_sale]
-        row_result = ['Итого', count_sale - count_supply]
+        row_supply = ["Товаров поступило на сумму", count_supply]
+        row_sale = ["Товаров проданно на сумму", count_sale]
+        row_result = ["Итого", count_sale - count_supply]
         result_data.append(row_supply)
         result_data.append(row_sale)
         result_data.append(row_result)
-        data = pd.DataFrame(data=result_data, columns=['Наименование товара', 'Дата', 'Тип операции', 'Кол-во', 'Цена'])
+        data = pd.DataFrame(data=result_data, columns=["Наименование товара", "Дата", "Тип операции", "Кол-во", "Цена"])
         path = os.path.dirname(__file__) + "\\" + exel_name
         data.to_excel(path, index=False)
         self.close()

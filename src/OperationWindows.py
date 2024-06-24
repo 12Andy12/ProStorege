@@ -1,14 +1,11 @@
 from PySide6.QtWidgets import *
 from src.forms.OperationForm import Ui_OperationForm
-import src.DBconector
-from PySide6 import QtCore, QtWidgets, QtGui
+from PySide6 import QtCore, QtWidgets
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
-import sys
-import src.APIconector
-import src.resources
 import src.styles as styles
+
 
 class OperationWindow(QtWidgets.QWidget, Ui_OperationForm):
     def __init__(self, parent=None):
@@ -37,13 +34,11 @@ class OperationWindow(QtWidgets.QWidget, Ui_OperationForm):
         self.le_name.setStyleSheet(styles.background_color("alternative_background_color"))
         self.le_current_count.setStyleSheet(styles.background_color("alternative_background_color"))
 
-
     def add_operation(self):
-        name = self.le_name.text()
+        self.le_name.text()
         id = self.le_id.text()
-        current_count = self.parent.data_base_connector.request(
-            f"SELECT number FROM goods WHERE id = '{id}'")[0][0]
-        add_count = float(self.dsb_count.text().replace(',', '.'))
+        current_count = self.parent.data_base_connector.request(f"SELECT number FROM goods WHERE id = '{id}'")[0][0]
+        add_count = float(self.dsb_count.text().replace(",", "."))
         operation = self.cb_operation_type.currentText()
         date = self.de_date.text()
         price = self.parent.data[id]["productionCost"]
@@ -56,11 +51,11 @@ class OperationWindow(QtWidgets.QWidget, Ui_OperationForm):
             price = 0
 
         new_count = current_count + add_count
-        self.parent.data_base_connector.request(
-            f"UPDATE goods SET number = {new_count} WHERE id = '{id}'")
+        self.parent.data_base_connector.request(f"UPDATE goods SET number = {new_count} WHERE id = '{id}'")
 
         self.parent.data_base_connector.request(
-            f"INSERT INTO operations(good_id, operation, date, number, price, result_sum) VALUES('{id}', '{operation}', '{date}', '{abs(add_count)}', '{price}', '{price * abs(add_count)}')")
+            f"INSERT INTO operations(good_id, operation, date, number, price, result_sum) VALUES('{id}', '{operation}', '{date}', '{abs(add_count)}', '{price}', '{price * abs(add_count)}')"
+        )
 
         self.parent.on_dir_changed()
         self.close()

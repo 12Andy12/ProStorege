@@ -4922,10 +4922,13 @@ qt_resource_struct = b"\
 \x00\x00\x01\x8f\x90j>\xba\
 "
 
+
 def qInitResources():
     QtCore.qRegisterResourceData(0x03, qt_resource_struct, qt_resource_name, qt_resource_data)
 
+
 def qCleanupResources():
     QtCore.qUnregisterResourceData(0x03, qt_resource_struct, qt_resource_name, qt_resource_data)
+
 
 qInitResources()

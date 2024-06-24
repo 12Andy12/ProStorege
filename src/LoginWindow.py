@@ -1,12 +1,8 @@
-from typing import Dict
-
 from src.forms.LoginForm import Ui_LoginWindow
 from src.MainWindow import MainWindow
 from src.UserController import save_users, load_users
-from PySide6 import QtCore, QtWidgets
+from PySide6 import QtWidgets
 import src.styles as style
-
-
 
 
 class LoginWindow(QtWidgets.QMainWindow, Ui_LoginWindow):
@@ -27,8 +23,6 @@ class LoginWindow(QtWidgets.QMainWindow, Ui_LoginWindow):
         self.users = []
         self.users = load_users(self.users)
 
-
-
     def new_user(self):
         new_user_name: str = self.le_name.text()
         new_user_password: str = self.le_password.text()
@@ -44,11 +38,7 @@ class LoginWindow(QtWidgets.QMainWindow, Ui_LoginWindow):
                 self.l_error.setText("логин уже существует")
                 return
 
-        new_user = {
-            "name": new_user_name,
-            "password": new_user_password,
-            "traders": []
-        }
+        new_user = {"name": new_user_name, "password": new_user_password, "traders": []}
         self.users.append(new_user)
         save_users(self.users)
 
