@@ -1,12 +1,12 @@
-import pickle
+from typing import Dict
 
 from src.forms.LoginForm import Ui_LoginWindow
 from src.MainWindow import MainWindow
-
+from src.UserController import save_users, load_users
 from PySide6 import QtCore, QtWidgets
 import src.styles as style
 
-USERS_PATH = "users.bin"
+
 
 
 class LoginWindow(QtWidgets.QMainWindow, Ui_LoginWindow):
@@ -25,23 +25,9 @@ class LoginWindow(QtWidgets.QMainWindow, Ui_LoginWindow):
         self.btn_login.clicked.connect(lambda: self.login())
         self.btn_new_account.clicked.connect(lambda: self.new_user())
         self.users = []
-        self.load_users()
+        self.users = load_users(self.users)
 
-    def load_users(self):
-        try:
-            with open(USERS_PATH, "rb") as file:
-                self.users = pickle.load(file)
-        except FileNotFoundError:
-            self.save_users()
-        except Exception as err:
-            print(f"Exception on loading events from path = {USERS_PATH}. {err}")
 
-    def save_users(self):
-        try:
-            with open(USERS_PATH, "wb") as file:
-                pickle.dump(self.users, file)
-        except Exception as err:
-            print(f"Exception on saving events to path = {USERS_PATH}. {err}")
 
     def new_user(self):
         new_user_name: str = self.le_name.text()
@@ -64,7 +50,7 @@ class LoginWindow(QtWidgets.QMainWindow, Ui_LoginWindow):
             "traders": []
         }
         self.users.append(new_user)
-        self.save_users()
+        save_users(self.users)
 
     def login(self):
         print(f"all users = {self.users}")

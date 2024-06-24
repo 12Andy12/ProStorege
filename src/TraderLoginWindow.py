@@ -1,7 +1,7 @@
 import pickle
 
 from src.forms.TraderLoginForm import Ui_TraderLoginForm
-
+from src.UserController import save_users, load_users
 from PySide6 import QtCore, QtWidgets, QtGui
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
@@ -23,7 +23,7 @@ class TraderLoginWindow(QtWidgets.QWidget, Ui_TraderLoginForm):
         self.btn_cancel.clicked.connect(lambda: self.close())
         self.btn_save_trader.clicked.connect(lambda: self.on_save())
         self.users = []
-        self.load_users()
+        self.users = load_users(self.users)
         self.show()
         print(f"TraderLoginWindow init with {self.users}")
 
@@ -34,10 +34,10 @@ class TraderLoginWindow(QtWidgets.QWidget, Ui_TraderLoginForm):
             if trader_name == user["name"]:
                 self.l_error.setText("Логин уже занят")
                 return
-                for trader in user["traders"]:
-                    if trader_name == trader:
-                        self.l_error.setText("Логин уже занят")
-                        return
+            for trader in user["traders"]:
+                if trader_name == trader:
+                    self.l_error.setText("Логин уже занят")
+                    return
         if trader_password == "":
             self.l_error.setText("Пароль не может быть пустым")
         self.l_error.setText("")
@@ -49,24 +49,9 @@ class TraderLoginWindow(QtWidgets.QWidget, Ui_TraderLoginForm):
             if user["name"] == self.admin_name:
                 user["traders"].append(new_trader)
         self.parent.add_in_table(self.parent.traders_table, [trader_name, trader_password])
-        self.save_users()
+        save_users(self.users)
         self.close()
 
-    def load_users(self):
-        try:
-            with open(USERS_PATH, "rb") as file:
-                self.users = pickle.load(file)
-        except FileNotFoundError:
-            self.save_users()
-        except Exception as err:
-            print(f"Exception on loading events from path = {USERS_PATH}. {err}")
-
-    def save_users(self):
-        try:
-            with open(USERS_PATH, "wb") as file:
-                pickle.dump(self.users, file)
-        except Exception as err:
-            print(f"Exception on saving events to path = {USERS_PATH}. {err}")
 
     def mousePressEvent(self, event):
         if event.button() == QtCore.Qt.LeftButton:
